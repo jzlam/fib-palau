@@ -1,18 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // Requires JQuery and CORS enabled for the Origin you're testing from.
 
 // // Manual JQuery Import:

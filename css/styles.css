@@ -1,0 +1,67 @@
+/*section.header-img {
+	background: url(../assets/bg.jpg);
+	background-attachment: fixed;
+    background-position: bottom -55px right 0px;
+    background-repeat: no-repeat;
+    background-size: auto;
+}*/
+
+
+/* ------ HEADER SECTION ------ */ 
+
+.header-img {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 175%;
+  position: relative;
+  color: white;
+
+  display:flex;
+  align-items:center;
+}
+
+.header-img img {
+  float: left;
+  padding: 1%;
+  padding-left: 5%; 
+  width: 15%;
+  height: 15%;
+}
+
+.header-text {
+  float: left;
+  padding-left: 1%; 
+}
+
+nav a.nav-link {
+	font-family: 'Source Sans Pro', Arial, sans-serif;
+}
+nav ul {
+  margin-left: 4%;
+}
+
+nav {
+	border-bottom: 1px solid lightgray;
+}
+
+/* ------ HEADER END ------ */ 
+
+/* ------ CONTENT SECTION ------ */ 
+
+div.fade-in {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    font-weight: 0%;
+  }
+  to {
+    opacity: 1;
+    font-weight: 100%;
+  }
+}
+
+/* ------ CONTENT END ------ */ 
