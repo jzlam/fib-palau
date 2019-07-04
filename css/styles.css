@@ -7,20 +7,27 @@
 }*/
 
 
+html {
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
 /* ------ HEADER SECTION ------ */ 
 
 .header-img {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% 175%;
+  background-size: 100% 180%;
   position: relative;
   color: white;
 
   display:flex;
   align-items:center;
 }
-
 .header-img img {
   float: left;
   padding: 1%;
@@ -31,7 +38,14 @@
 
 .header-text {
   float: left;
-  padding-left: 1%; 
+  margin: 1%;
+}
+.header-text p {
+  float: left;
+  font-size: 1em;
+}
+.header-text h1 {
+  font-size: 2em;
 }
 
 nav a.nav-link {
