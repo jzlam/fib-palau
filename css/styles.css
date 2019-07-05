@@ -24,7 +24,7 @@ html {
   background-size: 100% 180%;
   position: relative;
   color: white;
-
+  background-color: #002232;
   display:flex;
   align-items:center;
 }
