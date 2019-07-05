@@ -9,11 +9,11 @@ $(document).ready(function (e) {
 		
         e.preventDefault(); // Prevent default form submission
         uploadButton.innerHTML = 'Uploading...'; // UI Feedback 
-        var file = fileSelect.files;
+        var files = fileSelect.files;
         
         var formData = new FormData();
+        formData.append('fiac.pdf', files[0], 'fiac.pdf'); // Selected File
         formData.append('parent_id', '80802264662'); // Parent
-        formData.append('FIAC.pdf', file); // Selected File
 
 
         console.log("FORMDATA:");
@@ -34,9 +34,6 @@ $(document).ready(function (e) {
     		contentType: false,
     		processData: false,
     		// Feedback: 
-            complete: function(data){
-            	console.log("Response:", data.responseText);
-            },
             success: function(data){
                 console.log("Upload Success:");
                 console.log(data);
@@ -91,43 +88,43 @@ $(document).ready(function (e) {
 
 
 
-// // Requires JQuery and CORS enabled for the Origin you're testing from.
+// Requires JQuery and CORS enabled for the Origin you're testing from.
 
-// // Manual JQuery Import:
+// Manual JQuery Import:
 
-//     // var script= document.createElement('script');
-//     // script.type= 'text/javascript';
-//     // script.src= '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js';
-//     // document.head.appendChild(script);
+    // var script= document.createElement('script');
+    // script.type= 'text/javascript';
+    // script.src= '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js';
+    // document.head.appendChild(script);
 
-// // Set up the multipart form using HTML5 FormData object
-// // https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/FormData
-// var form = new FormData();
+// Set up the multipart form using HTML5 FormData object
+// https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/FormData
+var form = new FormData();
 
-// // The content of the file
-// var fileBody = '<p>hey!<p>';
+// The content of the file
+var fileBody = '<p>hey!<p>';
 
-// // JS file-like object
-// var blob = new Blob([fileBody], { type: 'text/xml'});
+// JS file-like object
+var blob = new Blob([fileBody], { type: 'text/xml'});
 
-// // Add the file to the form
-// form.append('file.html', blob);
+// Add the file to the form
+form.append('file.html', blob);
 
-// // Add the destination folder for the upload to the form
-// form.append('parent_id', '0');
+// Add the destination folder for the upload to the form
+form.append('parent_id', '0');
 
 
-// $.ajax({
-//     url: uploadUrl,
-//     headers: headers,
-//     type: 'POST',
-//     // This prevents JQuery from trying to append the form as a querystring
-//     processData: false,
-//     contentType: false,
-//     data: form
-// }).complete(function ( data ) {
-//     console.log(data.responseText); // Confirmation 
-// });
+$.ajax({
+    url: uploadUrl,
+    headers: headers,
+    type: 'POST',
+    // This prevents JQuery from trying to append the form as a querystring
+    processData: false,
+    contentType: false,
+    data: form
+}).complete(function ( data ) {
+    console.log(data.responseText); // Confirmation 
+});
 
 
 
