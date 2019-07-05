@@ -2,37 +2,50 @@
 // FIAC Script Start
 $(document).ready(function (e) {
 
+	var uploadButton = document.getElementById('fiac-upload-button');
+	var fileSelect = document.getElementById('fiac-select');
+
     $('#fiac-upload-form').on('submit',(function(e) {
 		
-		// Prevent default form submission
-        e.preventDefault();
+        e.preventDefault(); // Prevent default form submission
+        uploadButton.innerHTML = 'Uploading...'; // UI Feedback 
+        var file = fileSelect.files;
         
-        var formData = new FormData(this);
-        formData.append('parent_id', '0'); // Parent attribute 
+        var formData = new FormData();
+        formData.append('parent_id', '80802264662'); // Parent
+        formData.append('FIAC.pdf', file); // Selected File
+
+
+        console.log("FORMDATA:");
+        console.log(formData);
+
 		var uploadUrl = 'https://upload.box.com/api/2.0/files/content';
 		var uploadHeader = {
-		    Authorization: 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+		    'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
 		};
 
-        $.ajax({
-            type:'POST',
+        $.ajax({       
             url: uploadUrl,
             headers: uploadHeader,
+            type:'POST',
             data: formData,
-            // Prevent JQuery Appending (As querystring)
+            // Prevent JQuery from appending as querystring:
     		cache: false,
     		contentType: false,
     		processData: false,
-            
-            success:function(data){
-                console.log("Upload Success");
+    		// Feedback: 
+            complete: function(data){
+            	console.log("Response:", data.responseText);
+            },
+            success: function(data){
+                console.log("Upload Success:");
                 console.log(data);
             },
             error: function(data, err){
-                console.log("Upload Error");
+                console.log("Upload Error:");
                 console.log(data);
             }
-        })
+        });
 
 
   		//.complete(function(data){
