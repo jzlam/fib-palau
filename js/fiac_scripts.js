@@ -11,7 +11,7 @@ $(document).ready(function (e) {
         var files = fileSelect.files;
         
         var formData = new FormData();
-        formData.append('fiac.pdf', files[0], 'fiac.pdf'); // Selected File
+        formData.append(files[0].name, files[0], 'fiac.pdf'); // Selected File
         formData.append('parent_id', '80802264662'); // Parent
 
         // API 
