@@ -8,14 +8,14 @@ $(document).ready(function (e) {
     $('#fiac-upload-form').on('submit',(function(e) {
 		
         e.preventDefault(); // Prevent default form submission
-        uploadButton.innerHTML = 'Uploading...'; // UI Feedback 
         var files = fileSelect.files;
         
         var formData = new FormData();
         formData.append('fiac.pdf', files[0], 'fiac.pdf'); // Selected File
         formData.append('parent_id', '80802264662'); // Parent
 
-		var uploadUrl = 'https://upload.box.com/api/2.0/files/content';
+        // API 
+		var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
 		var uploadHeader = {
 		    'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
 		};
@@ -45,8 +45,3 @@ $(document).ready(function (e) {
     // Additional Scripts:
   
 });
-
-
-
-
-

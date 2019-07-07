@@ -30,17 +30,17 @@
     
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="css/stylesmobile.css" /> 
+    <link rel="stylesheet" media="all" type="text/css" href="css/stylesmobile.css" />
+    
+    <!-- JS -->
+    
     
     <!-- jQuery  -->
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.js  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Bootstrap.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    <!-- JS -->
-    <script type="text/javascript" src="js/fiac_scripts.js"></script>
 
     <!-- Box Styles + Scripts -->
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.css"/>
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light header">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -65,14 +65,17 @@
           <li class="nav-item">
             <a class="nav-link" href="index.html">Home&nbsp;</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="resources.html">&nbsp;New Investors&nbsp;</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="resources.html">&nbsp;Current Investors&nbsp;</a>
-          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="fiac.html">&nbsp;Submission Portal</a>
+            <a class="nav-link" href="new-investors.html">&nbsp;New Investors&nbsp;</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="current-investors.html">&nbsp;Current Investors&nbsp;</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="portal.html">&nbsp;Submission Portal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact Us</a>
           </li>
         </ul>
       </div>
@@ -80,34 +83,38 @@
 
 <div class="fade-in">
 
-  <div style="text-align: center;">
-    <br>
-    <emph><h5>Welcome to the FIAC Submission Portal</h5></emph> 
-    <p>Log in with your credentials below to make a digital submission.</p>
-    <p class="muted">Please contact our office if you do not have access to the login information.</p> 
-    
-    <!-- UPLOAD SECTION -->
-    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form">
-      <input class="" type="file" name="FIAC" value="FIAC.pdf" id="fiac-select"/>
-      <input class="btn btn-primary" type="submit" name="upload" value="Upload" id="fiac-upload-button"/>
-    </form>
+  <div class="m-5" style="text-align: center;">
+      <h4>Resources</h4>
+      <p>Please review them below.</p>
+
+      <!-- Accordion -->
+      <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+          Application: Foreign Investment Approval Certificate 
+        </button>
+      </p>
+      <div class="collapse" id="collapseExample1">
+        <div class="card card-body" style="text-align: left;">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.<hr>
+          <a href="assets/FIAC.pdf" target="_blank">FIAC.pdf</a>
+        </div>
+      </div>
+      <hr style="width: 10%; border-color: gray;">
+
+      <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+          Deliverable: Quarterly Report
+        </button>
+      </p>
+      <div class="collapse" id="collapseExample2">
+        <div class="card card-body" style="text-align: left;">
+          Additional submissions are only necessary if any information has changed.<hr>
+          <a href="assets/Quarterly_Report.pdf" target="_blank">Quarterly Report.pdf</a>
+        </div>
+      </div>
 
   </div>
-  
-  <!-- <br>
-  <emph><p>Box File Upload:</p></emph>
-    <div class="mb-5">
-        <div class="ui_uploader" style="height:300px; width: 50%; border: 1px solid lightgray;"></div>
 
-        <script>
-            var folderId = '80802264662';
-            var accessToken = 'goiLalIEuF9ptQxHSbISBmTLerVCzdKF';
-            var uploader = new Box.ContentUploader();
-            uploader.show(folderId, accessToken, {
-                container: '.ui_uploader'
-            });
-        </script>
-    </div> -->
 
 </div>
 

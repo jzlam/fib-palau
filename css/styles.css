@@ -79,6 +79,41 @@ div.fade-in {
   }
 }
 
+div.get-started-cards div.col-sm {
+  margin-top: 2%;
+}
+
+div.get-started-cards div.col-sm a,
+div.footer a,
+div.contact a {
+  text-decoration: none;
+}
+
+div.get-started-cards div.card {
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+div.get-started-cards div.card:hover {
+  -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75); 
+  -moz-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
+  box-shadow: -1px 9px 40px -12px rgba(0,0,blue,alpha);
+
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+div.contact-table {
+  float:left; 
+}
+table th {
+  text-align: right;
+}
+
 /* ------ CONTENT END ------ */ 
 
 /* ------ FOOTER SECTION ------ */ 
