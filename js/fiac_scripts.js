@@ -36,9 +36,15 @@ function fileUpload(elementId, parentId) {
         contentType: false,
         processData: false,
         // Feedback: 
-        success: function(data){
-            console.log("Upload Success (F" + elementId + "):");
-            console.log(data);
+        // success: function(data){
+            // console.log("Upload Success (F" + elementId + "):");
+            // console.log(data);
+        success: function(xhr, response) { 
+            console.log("XHR:");
+            console.log(xhr);
+            console.log("response:");
+            console.log(response);
+                     
         },
         error: function(data){
             console.log("Upload Error (F" + elementId + "):");
@@ -57,7 +63,7 @@ $(document).ready(function (e) {
         // Create Application Folder
 
         fileUpload('1', '80802264662') // Upload File (selector, id)
-        fileUpload('2', '80802264662')
+        // fileUpload('2', '80802264662')
 		
         
         
