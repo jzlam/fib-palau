@@ -10,6 +10,10 @@
 //             E --> Delete Folder / Rollback F1 & Del Folder
 //   Err --> Delete Folder 
 
+function folderCreate() {
+
+}
+
 function fileUpload(elementId, parentId) {
     var selectorId =  "fiac-select" + elementId;
 
@@ -41,7 +45,7 @@ function fileUpload(elementId, parentId) {
             // console.log(data);
         success: function(xhr, response) { 
             console.log("XHR:");
-            console.log(xhr[entries][0][id]);
+            console.log(xhr['entries'][0]['id']);
         },
         error: function(data){
             console.log("Upload Error (F" + elementId + "):");
