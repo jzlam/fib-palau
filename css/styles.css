@@ -114,6 +114,15 @@ table th {
   text-align: right;
 }
 
+#fiac-upload-form div.custom-file {
+  width: 50%; 
+  margin: 2.5px;
+}
+
+#fiac-upload-form div.form-group { 
+  width: 30%;
+  margin-left: 2.5px;
+}
 /* ------ CONTENT END ------ */ 
 
 /* ------ FOOTER SECTION ------ */ 

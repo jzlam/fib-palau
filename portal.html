@@ -83,25 +83,23 @@
 
 <div class="fade-in">
 
-  <div style="text-align: center;">
+  <div style="margin: 8%; margin-top: 0; background-color: red;">
     <br>
-    <emph><h5>Welcome to the FIAC Submission Portal</h5></emph> 
+    <emph><h2>Welcome to the FIAC Submission Portal</h2></emph><br>
     <p>Log in with your credentials below to make a digital submission.</p>
-    <p class="muted">Please contact our office if you do not have access to the login information.</p> 
+    <p>Please contact our office if you do not have access to the login information.</p> 
     
     <!-- UPLOAD SECTION -->
-    <!-- <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form">
-      <input class="" type="file" name="FIAC" value="FIAC.pdf" id="fiac-select"/>
-      <input class="btn btn-primary" type="submit" name="upload" value="Upload" id="fiac-upload-button"/>
-    </form> -->
-
-    
-    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form">
-      <div class="custom-file" style="width: 50%; margin: 2.5px;">
+    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form" style="width: 80%; border: 1px solid lightgray; margin: auto;">
+      <div class="form-group">
+        <label for="biz-name-input">Enter your business name:</label>
+        <input type="text" class="form-control" id="biz-name-input" placeholder="Business Name">
+      </div>
+      <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select1">
         <label class="custom-file-label" for="fiac-select1">Choose file...</label>
       </div>
-      <div class="custom-file" style="width: 50%; margin: 2.5px;">
+      <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select2">
         <label class="custom-file-label" for="fiac-select2">Choose file...</label>
       </div><br>

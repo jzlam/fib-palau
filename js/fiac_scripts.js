@@ -1,16 +1,53 @@
 
+// Script: 
+
+// -folderCreate(nestedFolderCreate) 
+//     -nestedFolderCreate(fileUpload("1", "xhr[]", ))
 
 
-// SUB:
 
-// - Create App Folder
-// - Upload F1
-//   Succ --> Upload F2 (Pass: fiac-select elementId / parent folder id /  )
-//             S --> Upload F3
-//             E --> Delete Folder / Rollback F1 & Del Folder
-//   Err --> Delete Folder 
+// Sucess / Fallthrough Functions 
 
-function folderCreate() {
+var nestedFolderCreate = function(xhr)
+{
+    console.log("App Folder Created:");
+    console.log(xhr['entries'][0]['id']);
+
+    fileUpload('1', xhr['entries'][0]['id']); 
+    fileUpload('2', xhr['entries'][0]['id']); 
+}
+
+
+function folderCreate(successFunc) {
+    
+    var bizName = document.getElementById("biz-name-input").value.trim();
+    var currYear = new Date().getFullYear(); 
+    var fileName = "No. - " + currYear + ": " + bizName; // Inject User Input
+    
+    var formData = new FormData();  
+    formData.append('name', fileName); 
+    formData.append('parent_id', '80802264662'); // To Incoming Apps 
+
+    var uploadUrl = 'https://api.box.com/2.0/folders';
+    var uploadHeader = {
+        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+    };
+
+    $.ajax({       
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'POST',
+        data: formData,
+        // Prevent JQuery from appending as querystring:
+        cache: false,
+        contentType: false,
+        processData: false,
+        // Feedback: 
+        success: successFunc,
+        error: function(data){
+            console.log("Folder Create Error");
+        }
+    });
 
 }
 
@@ -40,30 +77,26 @@ function fileUpload(elementId, parentId) {
         contentType: false,
         processData: false,
         // Feedback: 
-        // success: function(data){
-            // console.log("Upload Success (F" + elementId + "):");
-            // console.log(data);
-        success: function(xhr, response) { 
-            console.log("XHR:");
-            console.log(xhr['entries'][0]['id']);
+        success: function(data) { 
+            console.log("Upload Succes (F" + elementId + "):");
         },
         error: function(data){
             console.log("Upload Error (F" + elementId + "):");
-            console.log(data);
         }
     });
 }
 
-// FIAC Script Start
+// Master FIAC Script Start
 $(document).ready(function (e) {
 
     $('#fiac-upload-form').on('submit',(function(e) {
 
         e.preventDefault(); // Prevent default form submission
 
-        // Create Application Folder
+        // Create Application Folder, Nested Doc Folder
+        folderCreate(nestedFolderCreate);
 
-        fileUpload('1', '80802264662') // Upload File (selector, id)
+        // fileUpload('1', '80802264662') // Upload File (selector, id)
         // fileUpload('2', '80802264662')
 		
         
