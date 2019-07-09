@@ -18,7 +18,7 @@ var nestedFolderCreate = function(xhr)
 }
 
 
-function folderCreate(successFunc) {
+function folderCreate() {
     
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
@@ -43,7 +43,13 @@ function folderCreate(successFunc) {
         contentType: false,
         processData: false,
         // Feedback: 
-        success: successFunc,
+        success: function(xhr){ 
+            console.log("App Folder Created:");
+            console.log(xhr['entries'][0]['id']);
+
+            fileUpload('1', xhr['entries'][0]['id']); 
+            fileUpload('2', xhr['entries'][0]['id']); 
+        },
         error: function(data){
             console.log("Folder Create Error");
         }
@@ -94,7 +100,7 @@ $(document).ready(function (e) {
         e.preventDefault(); // Prevent default form submission
 
         // Create Application Folder, Nested Doc Folder
-        folderCreate(nestedFolderCreate);
+        folderCreate();
 
         // fileUpload('1', '80802264662') // Upload File (selector, id)
         // fileUpload('2', '80802264662')
