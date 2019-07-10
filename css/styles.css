@@ -119,8 +119,8 @@ table th {
   margin: 2.5px;
 }
 
-#fiac-upload-form div.form-group { 
-  width: 30%;
+#fiac-upload-form div.form-group input { 
+  width: 40%;
   margin-left: 2.5px;
 }
 /* ------ CONTENT END ------ */ 

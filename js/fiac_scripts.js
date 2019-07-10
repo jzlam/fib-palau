@@ -24,9 +24,9 @@ function folderCreate() {
     var currYear = new Date().getFullYear(); 
     var fileName = "No. - " + currYear + ": " + bizName; // Inject User Input
     
-    var formData = new FormData();  
-    formData.append('name', fileName); 
-    formData.append('parent_id', '80802264662'); // To Incoming Apps 
+    // var formData = new FormData();  
+    // formData.append('name', fileName); 
+    // formData.append('parent_id', '80802264662'); // To Incoming Apps 
 
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
@@ -37,12 +37,15 @@ function folderCreate() {
         url: uploadUrl,
         headers: uploadHeader,
         type:'POST',
-        data: formData,
+        data: JSON.stringify({ name: fileName, parent: { id: '80802264662' } }),
         // Prevent JQuery from appending as querystring:
         cache: false,
-        contentType: false,
+        contentType: 'json',
         processData: false,
         // Feedback: 
+        // beforeSend: function(xhr) {
+        //     xhr.setRequestHeader('Authorization', 'Bearer ' + window.token);
+        // },
         success: function(xhr){ 
             console.log("App Folder Created:");
             console.log(xhr['entries'][0]['id']);
