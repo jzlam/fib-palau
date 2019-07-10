@@ -46,20 +46,16 @@ function folderCreate() {
         // beforeSend: function(xhr) {
         //     xhr.setRequestHeader('Authorization', 'Bearer ' + window.token);
         // },
-        success: function(data, status, xhr){ 
+        success: function(data, xhr){ 
             console.log("-----------------");
-            console.log("Response Text");
-            console.log(xhr.responseText);
-            console.log("1");
+            console.log("Response Text:");
+            console.log(xhr.responseText['id']);
+            console.log("Data[id]:");
             console.log(data['id']);
-            console.log("2");
-            console.log(xhr);
-            // console.log("3");
-            // console.log(xhr[id]);
             console.log("-----------------");
 
-            // fileUpload('1', xhr['id']); 
-            // fileUpload('2', xhr['id']); 
+            fileUpload('1', data['id']); 
+            fileUpload('2', data['id']); 
         },
         error: function(data){
             console.log("Folder Create Error");
