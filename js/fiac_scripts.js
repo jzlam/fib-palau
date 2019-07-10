@@ -48,13 +48,13 @@ function folderCreate() {
         // },
         success: function(data, status, xhr){ 
             console.log("-----------------");
+            console.log("Response Text");
+            console.log(xhr.responseText);
             console.log("1");
-            console.log(data);
+            console.log(data['id']);
             console.log("2");
-            console.log(status);
-            console.log("3");
             console.log(xhr);
-            console.log("4");
+            // console.log("3");
             // console.log(xhr[id]);
             console.log("-----------------");
 
