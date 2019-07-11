@@ -5,7 +5,7 @@ function folderCreate() {
     var appNum = getAppNumber();
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
-    var fileName = "No. - " + currYear + ": " + bizName; // Inject User Input
+    var fileName = appNum. + " - " + currYear + ": " + bizName; // Inject User Input
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
@@ -54,7 +54,7 @@ function getAppNumber()
         url: uploadUrl,
         headers: uploadHeader,
         type:'GET',
-        data: JSON.stringify({ sort: "name", direction: "DESC", limit: "1"}),
+        data: JSON.stringify({ sort: "name", direction: "DESC", limit: "1"}), // Folders always listed first (ASC)
         cache: false,
         contentType: 'json',
         processData: false,
@@ -65,7 +65,12 @@ function getAppNumber()
                 return appNum;
             } else {
                 console.log("AppNum Success");
+                console.log("-----------");
+                console.log(data);
+                console.log(data["entries"]);
+                console.log(data["entries"][0]);
                 console.log(data["entries"][0]["name"].split("-")[0].trim());
+                console.log("-----------");
                 appNum = data["entries"][0]["name"].split("-")[0].trim();
                 appNum = (parseInt(appNum, 10) + 1); // Increment
                 return appNum; 
@@ -159,14 +164,21 @@ $(document).ready(function (e) {
         folderCreate();
     }));
 
-    // UI Feedback
+    // Validations
     $('#fiac-select1').on('change', function(){
         var fileName = $(this).val();
         $(this).next('.custom-file-label').html(fileName);
-    })
+    });
     $('#fiac-select2').on('change', function(){
         var fileName = $(this).val();
         $(this).next('.custom-file-label').html(fileName);
-    })
+    });
+
+    $('biz-name-input')[0].oninvalid = function () {
+        this.setCustomValidity("Enter only letters, numbers, and hyphens.");
+    };
+    $('biz-name-input')[0].oninput= function () {
+        this.setCustomValidity("");
+    };
   
 });
