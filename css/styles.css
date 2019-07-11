@@ -117,11 +117,13 @@ table th {
 #fiac-upload-form div.custom-file {
   width: 50%; 
   margin: 2.5px;
+  min-width: 230px;
 }
 
 #fiac-upload-form div.form-group input { 
   width: 40%;
   margin-left: 2.5px;
+  min-width: 230px;
 }
 /* ------ CONTENT END ------ */ 
 
