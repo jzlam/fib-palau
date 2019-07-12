@@ -2,7 +2,8 @@
 // App Folder Creation
 function folderCreate() {
     
-    var appNum = getAppNumber();
+    // var appNum = getAppNumber();
+    var appNum = "AppNum.";
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
@@ -26,11 +27,6 @@ function folderCreate() {
         //     xhr.setRequestHeader('Authorization', 'Bearer ' + window.token);
         // },
         success: function(data){ 
-            console.log("-----------------");
-            console.log("Data[id]:");
-            console.log(data['id']);
-            console.log("-----------------");
-
             fileUpload('1', data['id']); 
             fileUpload('2', data['id']); 
         },
