@@ -5,7 +5,7 @@ function folderCreate() {
     var appNum = getAppNumber();
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
-    var fileName = appNum. + " - " + currYear + ": " + bizName; // Inject User Input
+    var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
