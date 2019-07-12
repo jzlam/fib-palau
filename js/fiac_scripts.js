@@ -45,7 +45,7 @@ function folderCreate() {
 function getAppNumber()
 {
     var appNum = "0"
-    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662/items';
+    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662/items?sort=name&direction=desc&limit=1'; // Folders always listed first (type ASC)
     var uploadHeader = {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
@@ -54,7 +54,6 @@ function getAppNumber()
         url: uploadUrl,
         headers: uploadHeader,
         type:'GET',
-        data: JSON.stringify({ sort: "name", direction: "DESC", limit: "1"}), // Folders always listed first (ASC)
         cache: false,
         contentType: 'json',
         processData: false,
@@ -86,7 +85,7 @@ function getAppNumber()
 // AppNum (FIAC check)
 function getAppNumberFallback() {
     var appNum = "0"
-    var uploadUrl = 'https://api.box.com/2.0/folders/80361855716/items';
+    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662/items?sort=name&direction=desc&limit=1';
     var uploadHeader = {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
@@ -95,7 +94,6 @@ function getAppNumberFallback() {
         url: uploadUrl,
         headers: uploadHeader,
         type:'GET',
-        data: JSON.stringify({ sort: "name", direction: "DESC", limit: "1"}),
         cache: false,
         contentType: 'json',
         processData: false,
@@ -174,10 +172,10 @@ $(document).ready(function (e) {
         $(this).next('.custom-file-label').html(fileName);
     });
 
-    $('biz-name-input')[0].oninvalid = function () {
-        this.setCustomValidity("Enter only letters, numbers, and hyphens.");
+    $('#biz-name-input')[0].oninvalid = function () {
+        this.setCustomValidity("Enter only letters, numbers, and any of the following characters: [: ,'-]");
     };
-    $('biz-name-input')[0].oninput= function () {
+    $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity("");
     };
   
