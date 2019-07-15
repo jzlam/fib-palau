@@ -2,8 +2,7 @@
 // App Folder Creation
 function folderCreate() {
     
-    // var appNum = getAppNumber();
-    var appNum = "AppNum.";
+    var appNum = getAppNumber(); // Returns 0 if errs 
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
@@ -22,10 +21,6 @@ function folderCreate() {
         cache: false,
         contentType: 'json',
         processData: false,
-        // Feedback: 
-        // beforeSend: function(xhr) {
-        //     xhr.setRequestHeader('Authorization', 'Bearer ' + window.token);
-        // },
         success: function(data){ 
             fileUpload('1', data['id']); 
             fileUpload('2', data['id']); 
@@ -37,11 +32,11 @@ function folderCreate() {
 
 }
 
-// AppNum (Incoming Apps check)
+// Get Application Number 
 function getAppNumber()
 {
-    var appNum = "0"
-    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662/items?sort=name&direction=desc&limit=1'; // Folders always listed first (type ASC)
+    var appNum = "0";
+    var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
     var uploadHeader = {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
@@ -54,34 +49,23 @@ function getAppNumber()
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            if (data["entries"].length == 0) {
-                console.log("Incoming Apps EMPTY");
-                appNum = getAppNumberFallback();
-                return appNum;
-            } else {
-                console.log("AppNum Success");
-                console.log("-----------");
-                console.log(data);
-                console.log(data["entries"]);
-                console.log(data["entries"][0]);
-                console.log(data["entries"][0]["name"].split("-")[0].trim());
-                console.log("-----------");
-                appNum = data["entries"][0]["name"].split("-")[0].trim();
-                appNum = (parseInt(appNum, 10) + 1); // Increment
-                return appNum; 
-            }
+            appNum = data["name"].split(":")[1].trim(); 
+            appNum = (parseInt(appNum, 10) + 1).toString(10); 
+            console.log("AppNum Retreived: " + appNum);
+            incrementAppNum(appNum); // Increment next sappNum
+            return appNum; 
         },
         error: function(data){
-            console.log("AppNum Error");
+            console.log("AppNum Retreive Error");
             return appNum; 
         }
     }); 
 }
 
-// AppNum (FIAC check)
-function getAppNumberFallback() {
-    var appNum = "0"
-    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662/items?sort=name&direction=desc&limit=1';
+// Increment Application Number 
+function incrementAppNum(appNum) {
+
+    var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
     var uploadHeader = {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
@@ -89,24 +73,16 @@ function getAppNumberFallback() {
     $.ajax({       
         url: uploadUrl,
         headers: uploadHeader,
-        type:'GET',
+        type:'PUT',
+        data: JSON.stringify({ name: appNum }),
         cache: false,
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            if (data["entries"].length == 0) {
-                return appNum;
-            } else {
-                console.log("AppNumFallback Success");
-                console.log(data["entries"][0]["name"].split("-")[0].trim());
-                appNum = data["entries"][0]["name"].split("-")[0].trim();
-                appNum = (parseInt(appNum, 10) + 1); // Increment
-                return appNum; 
-            }
+            console.log("AppNum Updated");
         },
         error: function(data){
-            console.log("AppNum Error");
-            return appNum; 
+            console.log("AppNum Update Error");
         }
     });
 }
@@ -128,7 +104,7 @@ function fileUpload(elementId, parentId) {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
 
-    $.ajax({       
+    $.ajax({
         url: uploadUrl,
         headers: uploadHeader,
         type:'POST',
@@ -169,10 +145,10 @@ $(document).ready(function (e) {
     });
 
     $('#biz-name-input')[0].oninvalid = function () {
-        this.setCustomValidity("Enter only letters, numbers, and any of the following characters: [: ,'-]");
+        this.setCustomValidity('Enter a name without using the special characters "/", "\\", ".", & ".." ');
     };
     $('#biz-name-input')[0].oninput= function () {
-        this.setCustomValidity("");
+        this.setCustomValidity(""); 
     };
   
 });
