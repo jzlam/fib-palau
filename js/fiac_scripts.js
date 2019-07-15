@@ -1,8 +1,8 @@
 
 // App Folder Creation
-function folderCreate() {
+function appFolderCreate() {
     
-    var appNum = getAppNumber(); // Returns 0 if errs 
+    var appNum = getAppNumber(); // Returns 0 if none indicated 
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
@@ -22,11 +22,38 @@ function folderCreate() {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload('1', data['id']); 
-            fileUpload('2', data['id']); 
+            docFolderCreate(data["id"]);
         },
         error: function(data){
-            console.log("Folder Create Error");
+            console.log("App Folder Create Error");
+        }
+    });
+}
+
+// Document Folder Creation
+function docFolderCreate(folderId) {
+    
+    var fileName = "Application";
+    var uploadUrl = 'https://api.box.com/2.0/folders';
+    var uploadHeader = {
+        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+    };
+
+    $.ajax({       
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'POST',
+        data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+        // Prevent JQuery from appending as querystring:
+        cache: false,
+        contentType: 'json',
+        processData: false,
+        success: function(data){ 
+            fileUpload('1', data["id"]); 
+            fileUpload('2', data["id"]); 
+        },
+        error: function(data){
+            console.log("Doc Folder Create Error");
         }
     });
 
@@ -36,7 +63,7 @@ function folderCreate() {
 function getAppNumber()
 {
     var appNum = "0";
-    var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
+    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662?fields=tags';
     var uploadHeader = {
         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
     };
@@ -49,10 +76,11 @@ function getAppNumber()
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            appNum = data["name"].split(":")[1].trim(); 
-            appNum = (parseInt(appNum, 10) + 1).toString(10); 
-            console.log("AppNum Retreived: " + appNum);
-            incrementAppNum(appNum); // Increment next sappNum
+            if (data["tags"].length == 1) {
+                appNum = data["tags"][0].replace(/\D/g,'').trim(); // Strip all non-digits 
+                appNum = (parseInt(appNum, 10) + 1).toString(10); 
+                console.log("AppNum Retreived: " + appNum);
+            }
             return appNum; 
         },
         error: function(data){
@@ -62,30 +90,30 @@ function getAppNumber()
     }); 
 }
 
-// Increment Application Number 
-function incrementAppNum(appNum) {
+// // Increment Application Number 
+// function incrementAppNum(appNum) {
 
-    var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
-    var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-    };
+//     var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
+//     var uploadHeader = {
+//         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+//     };
 
-    $.ajax({       
-        url: uploadUrl,
-        headers: uploadHeader,
-        type:'PUT',
-        data: JSON.stringify({ name: appNum }),
-        cache: false,
-        contentType: 'json',
-        processData: false,
-        success: function(data){ 
-            console.log("AppNum Updated");
-        },
-        error: function(data){
-            console.log("AppNum Update Error");
-        }
-    });
-}
+//     $.ajax({       
+//         url: uploadUrl,
+//         headers: uploadHeader,
+//         type:'PUT',
+//         data: JSON.stringify({ name: appNum }),
+//         cache: false,
+//         contentType: 'json',
+//         processData: false,
+//         success: function(data){ 
+//             console.log("AppNum Updated");
+//         },
+//         error: function(data){
+//             console.log("AppNum Update Error");
+//         }
+//     });
+// }
 
 // File Upload
 function fileUpload(elementId, parentId) {
@@ -131,7 +159,7 @@ $(document).ready(function (e) {
         // Prevent default form submission
         e.preventDefault();
         // Create Application Folder, Nested Doc Folder
-        folderCreate();
+        appFolderCreate();
     }));
 
     // Validations
