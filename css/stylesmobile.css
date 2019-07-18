@@ -10,7 +10,10 @@
   }
 }
 
-@media screen and (max-width: 500px) {
-	
+@media screen and (max-width: 490px) {
+   
+   .hide-mobile {
+      display: none;
+    }
 
 }

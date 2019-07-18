@@ -85,7 +85,10 @@ div.get-started-cards div.col-sm {
 
 div.get-started-cards div.col-sm a,
 div.footer a,
-div.contact a {
+div.contact a,
+div.contact-table table a,
+div.new-investors a,
+div.curr-investors p a {
   text-decoration: none;
 }
 
@@ -140,6 +143,13 @@ div.footer {
   background-color: #F8F9FA;
   color: #7C7C7D;
   padding: 1%;
+}
+
+div.footer a {
+  color: rgb(169, 169, 169);
+}
+div.footer a:hover {
+  color: #4A4A4B; 
 }
 
 /* ------ FOOTER END ------ */ 
