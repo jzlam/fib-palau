@@ -1,11 +1,16 @@
 
-// App Folder Creation
-function appFolderCreate() {
+// Enterprise Folder
+function entFolderCreate(applicationNum) {
     
-    var appNum = getAppNumber(); // Returns 0 if none indicated 
+    var appNum = applicationNum; 
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
+
+    console.log(appNum); 
+    console.log(typeof(appNum)); 
+    console.log(fileName); 
+    console.log(typeof(fileName)); 
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
@@ -22,16 +27,16 @@ function appFolderCreate() {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            docFolderCreate(data["id"]);
+            appFolderCreate(data["id"]);
         },
         error: function(data){
-            console.log("App Folder Create Error");
+            console.log("Enterprise Folder Create Error");
         }
     });
 }
 
 // Document Folder Creation
-function docFolderCreate(folderId) {
+function appFolderCreate(folderId) {
     
     var fileName = "Application";
     var uploadUrl = 'https://api.box.com/2.0/folders';
@@ -53,7 +58,7 @@ function docFolderCreate(folderId) {
             fileUpload('2', data["id"]); 
         },
         error: function(data){
-            console.log("Doc Folder Create Error");
+            console.log("App Folder Create Error");
         }
     });
 
@@ -158,8 +163,11 @@ $(document).ready(function (e) {
     $('#fiac-upload-form').on('submit',(function(e) {
         // Prevent default form submission
         e.preventDefault();
+        // AppnNum 
+        var appNum = getAppNumber(); 
+        console.log("Got app var");
         // Create Application Folder, Nested Doc Folder
-        appFolderCreate();
+        entFolderCreate(appNum);
     }));
 
     // Validations
