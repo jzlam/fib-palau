@@ -14,7 +14,7 @@
 <html lang="en"> 
 
 <head>
-    <title>FIB | Submission Portal</title>
+    <title>FIAC Application Form</title>
     <link rel="icon" href="assets/gov_logo.png">
     
     <!-- Metadata for the website -->
@@ -83,35 +83,73 @@
 
 <div class="fade-in">
 
-  <div style="margin: 8%; margin-top: 0; " class="portal">
+  <div class="portal">
     <br>
-    <emph><h2>Welcome to the FIB Submission Portal</h2></emph><br>
-    <p>Prior to starting a digital application, please take a look the <a href="new-investors.html">new</a> and <a href="current-investors.html">current</a> investor resource pages for a complete list of submission instructions and required documents. 
-    <br><br><i>Remember that submission of a digital FIAC is only a subset of the application process, and will not guarauntee the Board review of an application.</i></p>
-    <p>
-      Review the following checklist to make sure that you are prepared for the digital FIAC submission process. 
-      <ul>
-        <li>Item 1</li>
-      </ul>
-    </p>
+    <emph><h2>FIAC Application Form</h2></emph><br>
+    <i>Remember that submission of a digital FIAC is only a subset of the application process, and will not guarauntee the Board review of an application.</i> View the rest of the submission steps <a href="new-investors.html" >here</a>.</p><br>
     
     <!-- UPLOAD SECTION -->
-    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form" style="width: 80%; padding: 5%; border: 1px solid lightgray; margin: auto;">
+    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form">
+      
       <div class="form-group">
-        <label for="biz-name-input">Enter your business name:</label>
+        <label for="biz-name-input">Enter your business name exactly as written on your FIAC Application:</label>
         <input type="text" class="form-control" id="biz-name-input" placeholder="Business Name" pattern="^[^.^\/^\\]*$" minlength="1" maxlength="255">
-        <!-- Regex: No inputs containing "/", "\", or the special names ".." and "." for Box naming purposes -->
-      </div>
-      <hr>1. Attach your completed FIAC application (PDF format preferred)<br><br>
+        <!-- Regex: No inputs containing "/", "\", or the special names ".." and "." for internal naming purposes -->
+      </div><hr>
+
+      1. Attach your completed FIAC Application<b> (Required)</b><br><br>
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select1">
         <label class="custom-file-label" for="fiac-select1">Choose file...</label>
-      </div>
-      <br><br>2. Attach the Corporate Documents section of your application <br>(Sections 6-7 and 10-12 of the FIAC)<br><br>
+      </div><br><br>
+
+      2. Attach addendums for the Corporate Document sections of your application (&#167;6-7 of the FIAC) if needed<br><br>
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select2">
         <label class="custom-file-label" for="fiac-select2">Choose file...</label>
-      </div><br>
+      </div><br><br>
+
+      3. Attach the Business Profiles sections (&#167;8 and 9)<b> (Required)</b><br><br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select3">
+        <label class="custom-file-label" for="fiac-select3">Choose file...</label>
+      </div><br><br>
+
+      4. Attach addendums for the Affiliate Enterprise sections (&#167;10, 11, and 12)<br><br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select4">
+        <label class="custom-file-label" for="fiac-select4">Choose file...</label>
+      </div><br><br>
+
+      5. Attach the Proof of Financial Responsibility (&#167;13)<b> (Required)</b>
+      <ul>
+        <li><b>Do not</b> attach your Financial Statement (<i>&#167;13 d) i.</i>) here. Instead, upload it to the following section (#6 in the Submission Portal).</li>
+        <li>Insurance companies should append their annual statement and certificate to this section.</li>
+      </ul>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select5">
+        <label class="custom-file-label" for="fiac-select5">Choose file...</label>
+      </div><br><br>
+
+      6. Attach a Financial Statement (from <i>&#167;13 d) i.</i> of the FIAC Application<b> (Required)</b><br><br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select6">
+        <label class="custom-file-label" for="fiac-select6">Choose file...</label>
+      </div><br><br>
+
+      7. Attach a Business Proposal (&#167;14)<b> (Required)</b><br><br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select7">
+        <label class="custom-file-label" for="fiac-select7">Choose file...</label>
+      </div><br><br>
+
+      8. An additional attachment may also be submitted to the FIB (&#167;15)</b><br><br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="fiac-select7">
+        <label class="custom-file-label" for="fiac-select7">Choose file...</label>
+      </div><br><br>
+
+      <!-- Submit -->
       <input class="btn btn-lg btn-primary" type="submit" id="fiac-upload-button" />
     </form>
 

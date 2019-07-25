@@ -6,6 +6,11 @@ function entFolderCreate(applicationNum) {
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
+
+    console.log(appNum); 
+    console.log(typeof(appNum)); 
+    console.log(fileName); 
+    console.log(typeof(fileName)); 
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
@@ -49,7 +54,6 @@ function appFolderCreate(folderId) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            // FUNC FROM BELOW GOES HERE
             fileUpload('1', data["id"]); 
             fileUpload('2', data["id"]); 
         },
@@ -60,19 +64,41 @@ function appFolderCreate(folderId) {
 
 }
 
-
-function uploadFiles(appFolderID) {
-
-    for {var i=1; i<8; i++ }
-}
-// FUNC THAT ITERATES THROUGH FOLDERS 
-//  IF VALUE != "" CALL fileUpload ON (ITERATOR, APP_FOLDER_ID)
-
 // Get Application Number 
-// function getAppNumber()
-// {
-//     var appNum = "0";
-//     var uploadUrl = 'https://api.box.com/2.0/folders/80802264662?fields=tags';
+function getAppNumber()
+{
+    var appNum = "0";
+    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662?fields=tags';
+    var uploadHeader = {
+        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+    };
+
+    $.ajax({       
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'GET',
+        cache: false,
+        contentType: 'json',
+        processData: false,
+        success: function(data){ 
+            if (data["tags"].length == 1) {
+                appNum = data["tags"][0].replace(/\D/g,'').trim(); // Strip all non-digits 
+                appNum = (parseInt(appNum, 10) + 1).toString(10); 
+                console.log("AppNum Retreived: " + appNum);
+            }
+            return appNum; 
+        },
+        error: function(data){
+            console.log("AppNum Retreive Error");
+            return appNum; 
+        }
+    }); 
+}
+
+// // Increment Application Number 
+// function incrementAppNum(appNum) {
+
+//     var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
 //     var uploadHeader = {
 //         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
 //     };
@@ -80,23 +106,18 @@ function uploadFiles(appFolderID) {
 //     $.ajax({       
 //         url: uploadUrl,
 //         headers: uploadHeader,
-//         type:'GET',
+//         type:'PUT',
+//         data: JSON.stringify({ name: appNum }),
 //         cache: false,
 //         contentType: 'json',
 //         processData: false,
 //         success: function(data){ 
-//             if (data["tags"].length == 1) {
-//                 appNum = data["tags"][0].replace(/\D/g,'').trim(); // Strip all non-digits 
-//                 appNum = (parseInt(appNum, 10) + 1).toString(10); 
-//                 console.log("AppNum Retreived: " + appNum);
-//             }
-//             return appNum; 
+//             console.log("AppNum Updated");
 //         },
 //         error: function(data){
-//             console.log("AppNum Retreive Error");
-//             return appNum; 
+//             console.log("AppNum Update Error");
 //         }
-//     }); 
+//     });
 // }
 
 // File Upload
@@ -142,15 +163,21 @@ $(document).ready(function (e) {
     $('#fiac-upload-form').on('submit',(function(e) {
         // Prevent default form submission
         e.preventDefault();
-        // Create Enterprise Folder, Nested Doc Folder
+        // AppnNum 
+        var appNum = getAppNumber(); 
+        console.log("Got app var");
+        // Create Application Folder, Nested Doc Folder
         entFolderCreate(appNum);
     }));
 
     // Validations
-    $('.custom-file-input').on('change', function(){
-        var fileName = $(this).val().split("\\");
-        var length = fileName.length; 
-        $(this).next('.custom-file-label').html(fileName[length-1]);
+    $('#fiac-select1').on('change', function(){
+        var fileName = $(this).val();
+        $(this).next('.custom-file-label').html(fileName);
+    });
+    $('#fiac-select2').on('change', function(){
+        var fileName = $(this).val();
+        $(this).next('.custom-file-label').html(fileName);
     });
 
     $('#biz-name-input')[0].oninvalid = function () {
