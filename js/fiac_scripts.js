@@ -86,9 +86,14 @@ function uploadFiles(appFolderID, entFolderID) {
             privFolderCreate(entFolderID, file.files[0]);
         }
         else {
-            fileUpload(file.files[0], appFolderID, fileNameMap.get(i));
+            fileUpload(file.files[0], appFolderID, i);
         }
     };
+
+    if (document.getElementById("loading-list").style.display == "block";) {
+        document.getElementById("loading-list").style.display = "none";
+        document.getElementById("success-list").style.display = "block";
+    }
 }
 
 function privFolderCreate(folderId, file) {
@@ -109,7 +114,7 @@ function privFolderCreate(folderId, file) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload(file, data["id"], fileNameMap.get(6));
+            fileUpload(file, data["id"], 6);
         },
         error: function(data){
             console.log("Private Folder Create Error");
@@ -120,12 +125,12 @@ function privFolderCreate(folderId, file) {
 
 }
 
-function fileUpload(file, parentId, fileName) {
+function fileUpload(file, parentId, i) {
     // var selectorId =  "fiac-select" + elementId;
 
     // var fileSelect = document.getElementById(selectorId);
     // var file = fileSelect.files[0];
-    
+    var fileName = fileNameMap.get(i)
     var formData = new FormData();
     formData.append(fileName, file, fileName); // Selected File
     formData.append('parent_id', parentId); // Parent
@@ -148,6 +153,7 @@ function fileUpload(file, parentId, fileName) {
         // Feedback: 
         success: function(data) { 
             console.log("Upload Success: " + fileName);
+            document.getElementById("file_" + i.toString(10)).style.display = "block";
         },
         error: function(data){
             document.getElementById("loading-list").style.display = "none";
