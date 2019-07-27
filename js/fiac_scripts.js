@@ -1,3 +1,15 @@
+// Preset filenames for upload
+var fileNameMap = new Map([
+    [1 , "1. FIAC.pdf"], 
+    [2 , "2. Commercial Documents (§6 and 7).pdf"],
+    [3, "3. Business Profiles (§8 and 9).pdf"], 
+    [4, "Affiliated Enterprises (§10, 11, and 12).pdf"], 
+    [5, "5. Proof of Financial Responsibility (§13).pdf"], 
+    [6, "6. Financial Statement (§13 d) i.).pdf"], 
+    [7, "7. Business Proposal (§14).pdf"], 
+    [8, "8. Applicant Attachment (§15).pdf"] 
+]);
+
 
 // Enterprise Folder
 function entFolderCreate() {
@@ -48,9 +60,7 @@ function appFolderCreate(folderId) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            // FUNC FROM BELOW GOES HERE
-            fileUpload('1', data["id"]); 
-            fileUpload('2', data["id"]); 
+            uploadFiles(data["id"]);
         },
         error: function(data){
             console.log("App Folder Create Error");
@@ -59,56 +69,32 @@ function appFolderCreate(folderId) {
 
 }
 
+function uploadFiles(appFolderID) {
 
-// function uploadFiles(appFolderID) {
+    var fileCount = $('.custom-file-input').length;
 
-//     for {var i=1; i<8; i++ }
+    for (var i = 1; i <= fileCount; i++) { 
+        var file = $("#fiac-select" + i.toString(10))[0]; 
 
-//         if 
-// }
-// FUNC THAT ITERATES THROUGH FOLDERS 
-//  IF VALUE != "" CALL fileUpload ON (ITERATOR, APP_FOLDER_ID)
-
-// Get Application Number 
-// function getAppNumber()
-// {
-//     var appNum = "0";
-//     var uploadUrl = 'https://api.box.com/2.0/folders/80802264662?fields=tags';
-//     var uploadHeader = {
-//         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-//     };
-
-//     $.ajax({       
-//         url: uploadUrl,
-//         headers: uploadHeader,
-//         type:'GET',
-//         cache: false,
-//         contentType: 'json',
-//         processData: false,
-//         success: function(data){ 
-//             if (data["tags"].length == 1) {
-//                 appNum = data["tags"][0].replace(/\D/g,'').trim(); // Strip all non-digits 
-//                 appNum = (parseInt(appNum, 10) + 1).toString(10); 
-//                 console.log("AppNum Retreived: " + appNum);
-//             }
-//             return appNum; 
-//         },
-//         error: function(data){
-//             console.log("AppNum Retreive Error");
-//             return appNum; 
-//         }
-//     }); 
-// }
+        // Skip blank file uploads
+        if (file.files.length == 0 ) {
+            continue;
+        }
+        else {
+            fileUpload(file.files[0], appFolderID, fileNameMap.get(i));
+        }
+    };
+}
 
 // File Upload
-function fileUpload(elementId, parentId) {
-    var selectorId =  "fiac-select" + elementId;
+function fileUpload(file, parentId, fileName) {
+    // var selectorId =  "fiac-select" + elementId;
 
-    var fileSelect = document.getElementById(selectorId);
-    var file = fileSelect.files[0];
+    // var fileSelect = document.getElementById(selectorId);
+    // var file = fileSelect.files[0];
     
     var formData = new FormData();
-    formData.append(file.name, file, file.name); // Selected File
+    formData.append(fileName, file, fileName); // Selected File
     formData.append('parent_id', parentId); // Parent
 
     // API 
@@ -128,10 +114,10 @@ function fileUpload(elementId, parentId) {
         processData: false,
         // Feedback: 
         success: function(data) { 
-            console.log("Upload Succes (F" + elementId + "):");
+            console.log("Upload Succes: " + fileName);
         },
         error: function(data){
-            console.log("Upload Error (F" + elementId + "):");
+            console.log("Upload Error: " + fileName);
         }
     });
 }
@@ -139,20 +125,17 @@ function fileUpload(elementId, parentId) {
 // Master Script Start
 $(document).ready(function (e) {
 
-    // Form Submit
-    $('#fiac-upload-form').on('submit',(function(e) {
-        // Prevent default form submission
-        e.preventDefault();
-        // Create Enterprise Folder, Nested Doc Folder
-        entFolderCreate();
-    }));
-
-    // Validations
-    $('.custom-file-input').on('change', function(){
-        var fileName = $(this).val().split("\\");
-        var length = fileName.length; 
-        $(this).next('.custom-file-label').html(fileName[length-1]);
+    // Validity
+    $(".custom-file-input").each( function() {
+        $(this)[0].setAttribute("accept", ".pdf,application/pdf");
     });
+
+    $('.custom-file-input').on('change', function(){
+        // Add fileName to file label
+        var fileDir = $(this).val().split("\\");
+        var fileName = fileDir[fileDir.length-1]; 
+        $(this).next('.custom-file-label').html(fileName);
+    }); 
 
     $('#biz-name-input')[0].oninvalid = function () {
         this.setCustomValidity('Enter a name without using the special characters "/", "\\", ".", & ".." ');
@@ -160,5 +143,12 @@ $(document).ready(function (e) {
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
     };
-  
+
+    // Form Submision
+    $('#fiac-upload-form').on('submit',(function(e) {
+        // Prevent default form submission
+        e.preventDefault();
+        // Create Enterprise Folder, Nested Doc Folder
+        entFolderCreate();
+    }));
 });
