@@ -164,7 +164,7 @@ div.portal {
 
 /*  Loading Modal  */
 .modal {
-  display: block; 
+  display: none; 
   position: fixed;
   z-index: 10; 
   left: 0;
@@ -204,7 +204,7 @@ div.portal {
 #file_6,
 #file_7,
 #file_8, {
-  display: block;
+  display: none;
 }
 
 /* ------ CONTENT END ------ */ 
