@@ -201,6 +201,19 @@ $(document).ready(function (e) {
         // Prevent default form submission
         e.preventDefault();
         document.getElementById("loading-modal").style.display = "block"; 
+        document.getElementById("name-list").style.display = "none"; 
+        document.getElementById("fail-list").style.display = "none"; 
+        document.getElementById("error-list").style.display = "none"; 
+        document.getElementById("success-list").style.display = "none"; 
+        document.getElementById("file_1").style.display = "none"; 
+        document.getElementById("file_2").style.display = "none"; 
+        document.getElementById("file_3").style.display = "none"; 
+        document.getElementById("file_4").style.display = "none"; 
+        document.getElementById("file_5").style.display = "none"; 
+        document.getElementById("file_6").style.display = "none"; 
+        document.getElementById("file_7").style.display = "none"; 
+        document.getElementById("file_8").style.display = "none"; 
+
         // Create Enterprise Folder, Nested Doc Folder
         entFolderCreate();
     }));
