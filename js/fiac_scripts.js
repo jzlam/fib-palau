@@ -90,7 +90,7 @@ function uploadFiles(appFolderID, entFolderID) {
         }
     };
 
-    if (document.getElementById("loading-list").style.display == "block";) {
+    if (document.getElementById("loading-list").style.display == "block") {
         document.getElementById("loading-list").style.display = "none";
         document.getElementById("success-list").style.display = "block";
     }
