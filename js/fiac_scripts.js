@@ -37,6 +37,8 @@ function entFolderCreate() {
         },
         error: function(data){
             console.log("Enterprise Folder Create Error");
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("name-list").style.display = "block";
         }
     });
 }
@@ -63,6 +65,8 @@ function appFolderCreate(folderId) {
         },
         error: function(data){
             console.log("App Folder Create Error");
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("error-list").style.display = "block";
         }
     });
 
@@ -109,6 +113,8 @@ function privFolderCreate(folderId, file) {
         },
         error: function(data){
             console.log("Private Folder Create Error");
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("error-list").style.display = "block";
         }
     });
 
@@ -141,10 +147,11 @@ function fileUpload(file, parentId, fileName) {
         processData: false,
         // Feedback: 
         success: function(data) { 
-            console.log("Upload Succes: " + fileName);
+            console.log("Upload Success: " + fileName);
         },
         error: function(data){
-            console.log("Upload Error: " + fileName);
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("fail-list").style.display = "block";
         }
     });
 }
@@ -176,11 +183,20 @@ $(document).ready(function (e) {
         this.setCustomValidity(""); 
     };
 
+    // Other Listeners
+    $('#modal-close').on('click', function(){
+        document.getElementById("loading-list").style.display = "block";
+        document.getElementById("name-list").style.display = "none";
+        document.getElementById("loading-modal").style.display = "none";
+    });
+
     // Form Submision
     $('#fiac-upload-form').on('submit',(function(e) {
         // Prevent default form submission
         e.preventDefault();
+        document.getElementById("loading-modal").style.display = "block"; 
         // Create Enterprise Folder, Nested Doc Folder
         entFolderCreate();
     }));
+
 });

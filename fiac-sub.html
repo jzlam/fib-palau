@@ -138,7 +138,7 @@
         <label class="custom-file-label" for="fiac-select5">Choose file...</label>
       </div><br><br>
 
-      6. Attach a Financial Statement (from <u><i>&#167;13 d) i.</i></u> of the FIAC Application<b> (Required)</b><br><br>
+      6. Attach a Financial Statement from <u><i>&#167;13 d) i.</i></u> of the FIAC Application<b> (Required)</b><br><br>
       <div class="custom-file">
         <input required type="file" class="custom-file-input" id="fiac-select6">
         <label class="custom-file-label" for="fiac-select6">Choose file...</label>
@@ -159,8 +159,56 @@
 
       
       <!-- Submit -->
-      <input class="btn btn-lg btn-primary" type="submit" id="fiac-upload-button" />
+      <input class="btn btn-lg btn-primary" type="submit" id="fiac-upload-button" style="font-size: 1em;" />
     </form>
+
+    <!-- Loading Modal: -->
+    <div id="loading-modal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <h5>Your files are being uploaded, do not refresh the page.</h5><br>
+        <p>Check your upload status below:</p>
+
+        <ul id="loading-list">
+          <li>Uploading files&nbsp;&nbsp;<img id="loading-img" src="assets/loading.gif"></li>
+        </ul>
+
+        <ul id="name-list">
+          <li>Uploading files&nbsp;&nbsp;<img id="loading-img" src="assets/failed.jpeg"></li><br>
+          <li>It looks like you've already uploaded an application for your entered business name.<br>Try submitting again, and add a submission number to your business name as such: "Biz Name - Submission #2"</li><br>
+          <button id="modal-close" class="btn btn-primary">Try Again</button>
+        </ul>
+
+        <ul id="fail-list">
+          <li>Uploading files&nbsp;&nbsp;<img id="loading-img" src="assets/failed.jpeg"></li><br>
+          <li>Sorry, something went wrong with your upload. This was most likely caused by an interruption in your internet connection.</li><br>
+          <li>Refresh your browser, and try uploading again.</li><br>
+          <a class="btn btn-primary" href="fiac-sub.html">Try Again</a>
+        </ul>
+
+        <ul id="error-list">
+          <li>Uploading files&nbsp;&nbsp;<img id="loading-img" src="assets/failed.jpeg"></li><br>
+          <li>Sorry, something went wrong with your upload. This is a critical error, please contact the <a href="mailto:mkornyev@gmail.com">webmaster</a> immediately.</li><br>
+          <li>Refresh your browser, and try uploading again.</li><br>
+          <a class="btn btn-primary" href="fiac-sub.html">Try Again</a>
+        </ul>
+
+        <ul id="success-list">
+          <li>Uploading files&nbsp;&nbsp;<img id="loading-img" src="assets/success.png"></li><br>
+          <li>Congratulations, your files were uploaded successfully. Thank you for taking part in the FIB's paperless initiative.</li><br>
+          <li>To finalize your FIAC Application, complete the following:
+            <ul style="list-style: disc;">
+              <li>Deliver an application fee, along with a hard copy of your entire submission, to the FIB Office.</li>
+              <li>Once prompted by the FIB, deliver additional hard copies of your submission. At this stage, your application is deemed complete.</li>
+            </ul><br>
+          Refer to the new investor resource page for a complete list of steps to complete.</li><br>
+          <a class="btn btn-primary" href="new-investors.html">See Remaining Steps</a>
+        </ul>
+
+      </div>
+
+    </div>
 
   </div>
   
