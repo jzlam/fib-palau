@@ -11,7 +11,7 @@ var fileNameMap = new Map([
 ]);
 
 
-// Enterprise Folder
+// Enterprise Folder Creation
 function entFolderCreate() {
     
     var bizName = document.getElementById("biz-name-input").value.trim();
@@ -41,7 +41,6 @@ function entFolderCreate() {
     });
 }
 
-// Document Folder Creation
 function appFolderCreate(folderId) {
     
     var fileName = "Application";
@@ -60,7 +59,7 @@ function appFolderCreate(folderId) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            uploadFiles(data["id"]);
+            uploadFiles(data["id"], folderId);
         },
         error: function(data){
             console.log("App Folder Create Error");
@@ -69,7 +68,7 @@ function appFolderCreate(folderId) {
 
 }
 
-function uploadFiles(appFolderID) {
+function uploadFiles(appFolderID, entFolderID) {
 
     var fileCount = $('.custom-file-input').length;
 
@@ -77,8 +76,10 @@ function uploadFiles(appFolderID) {
         var file = $("#fiac-select" + i.toString(10))[0]; 
 
         // Skip blank file uploads
-        if (file.files.length == 0 ) {
+        if (file.files.length == 0) {
             continue;
+        } else if (i == 6) {
+            privFolderCreate(entFolderID, file.files[0]);
         }
         else {
             fileUpload(file.files[0], appFolderID, fileNameMap.get(i));
@@ -86,7 +87,33 @@ function uploadFiles(appFolderID) {
     };
 }
 
-// File Upload
+function privFolderCreate(folderId, file) {
+    
+    var fileName = "Private Documents";
+    var uploadUrl = 'https://api.box.com/2.0/folders';
+    var uploadHeader = {
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+    };
+
+    $.ajax({       
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'POST',
+        data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+        // Prevent JQuery from appending as querystring:
+        cache: false,
+        contentType: 'json',
+        processData: false,
+        success: function(data){ 
+            fileUpload(file, data["id"], fileNameMap.get(i));
+        },
+        error: function(data){
+            console.log("Private Folder Create Error");
+        }
+    });
+
+}
+
 function fileUpload(file, parentId, fileName) {
     // var selectorId =  "fiac-select" + elementId;
 
@@ -124,6 +151,11 @@ function fileUpload(file, parentId, fileName) {
 
 // Master Script Start
 $(document).ready(function (e) {
+
+    // Enable Refresh Prompt
+    window.onbeforeunload = function() {
+        return true;
+    };
 
     // Validity
     $(".custom-file-input").each( function() {
