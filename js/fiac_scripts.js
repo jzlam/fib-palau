@@ -105,7 +105,7 @@ function privFolderCreate(folderId, file) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload(file, data["id"], fileNameMap.get(i));
+            fileUpload(file, data["id"], fileNameMap.get(6));
         },
         error: function(data){
             console.log("Private Folder Create Error");
@@ -170,7 +170,7 @@ $(document).ready(function (e) {
     }); 
 
     $('#biz-name-input')[0].oninvalid = function () {
-        this.setCustomValidity('Enter a name without using the special characters "/", "\\", ".", & ".." ');
+        this.setCustomValidity('Enter a name without using the special characters /, \\, and .');
     };
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
