@@ -1,22 +1,21 @@
 
 // Enterprise Folder
-function entFolderCreate(applicationNum) {
+function entFolderCreate() {
     
-    var appNum = applicationNum; 
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
-    var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
+    var fileName = " - " + currYear + ": " + bizName; // User Input
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
     };
 
     $.ajax({       
         url: uploadUrl,
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: '80802264662' } }),
+        data: JSON.stringify({ name: fileName, parent: { id: '83025545413' } }),
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'json',
@@ -36,7 +35,7 @@ function appFolderCreate(folderId) {
     var fileName = "Application";
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
     };
 
     $.ajax({       
@@ -61,10 +60,12 @@ function appFolderCreate(folderId) {
 }
 
 
-function uploadFiles(appFolderID) {
+// function uploadFiles(appFolderID) {
 
-    for {var i=1; i<8; i++ }
-}
+//     for {var i=1; i<8; i++ }
+
+//         if 
+// }
 // FUNC THAT ITERATES THROUGH FOLDERS 
 //  IF VALUE != "" CALL fileUpload ON (ITERATOR, APP_FOLDER_ID)
 
@@ -113,7 +114,7 @@ function fileUpload(elementId, parentId) {
     // API 
     var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
     var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
     };
 
     $.ajax({
@@ -143,7 +144,7 @@ $(document).ready(function (e) {
         // Prevent default form submission
         e.preventDefault();
         // Create Enterprise Folder, Nested Doc Folder
-        entFolderCreate(appNum);
+        entFolderCreate();
     }));
 
     // Validations

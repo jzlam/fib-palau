@@ -112,6 +112,14 @@ div.get-started-cards div.card:hover {
   transition: all 0.2s ease-in;
 }
 
+table.newinv-table th {
+  width: 25%;
+}
+
+table.newinv-table td {
+  padding-left: 15px;
+}
+
 div.contact-table {
   float:left; 
 }
