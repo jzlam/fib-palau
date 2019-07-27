@@ -127,12 +127,6 @@ table th {
   text-align: right;
 }
 
-#fiac-upload-form div.custom-file {
-  width: 60%; 
-  margin: 2.5px;
-  min-width: 230px;
-}
-
 #fiac-upload-form {
   width: 87.5%; 
   padding: 5%; 
@@ -140,9 +134,18 @@ table th {
   margin: auto;
 }
 
+#fiac-upload-form label {
+  overflow: hidden;
+}
+
 #fiac-upload-form div.form-group input { 
   width: 50%;
   margin-left: 2.5px;
+  min-width: 230px;
+}
+#fiac-upload-form div.custom-file {
+  width: 60%; 
+  margin: 2.5px;
   min-width: 230px;
 }
 
