@@ -1,47 +1,115 @@
 
-// Enterprise Folder
-function entFolderCreate(applicationNum) {
-    
-    var appNum = applicationNum; 
-    var bizName = document.getElementById("biz-name-input").value.trim();
-    var currYear = new Date().getFullYear(); 
-    var fileName = appNum + " - " + currYear + ": " + bizName; // Inject User Input
+// Preset filenames for upload
+var fileNameMap = new Map([
+    [1 , "1. FIAC.pdf"], 
+    [2 , "2. Commercial Documents (§6 and 7).pdf"],
+    [3, "3. Business Profiles (§8 and 9).pdf"], 
+    [4, "Affiliated Enterprises (§10, 11, and 12).pdf"], 
+    [5, "5. Proof of Financial Responsibility (§13).pdf"], 
+    [6, "6. Financial Statement (§13 d) i.).pdf"], 
+    [7, "7. Business Proposal (§14).pdf"], 
+    [8, "8. Applicant Attachment (§15).pdf"] 
+]);
 
-    console.log(appNum); 
-    console.log(typeof(appNum)); 
-    console.log(fileName); 
-    console.log(typeof(fileName)); 
-    
-    var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-    };
+// Enterprise Folder Creation
+function entFolderCreate() {
+    return new Promise((resolve, reject) => {
 
-    $.ajax({       
-        url: uploadUrl,
-        headers: uploadHeader,
-        type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: '80802264662' } }),
-        // Prevent JQuery from appending as querystring:
-        cache: false,
-        contentType: 'json',
-        processData: false,
-        success: function(data){ 
-            appFolderCreate(data["id"]);
-        },
-        error: function(data){
-            console.log("Enterprise Folder Create Error");
-        }
-    });
+        var bizName = document.getElementById("biz-name-input").value.trim();
+        var currYear = new Date().getFullYear(); 
+        var fileName = " - " + currYear + ": " + bizName; // User Input
+        
+        var uploadUrl = 'https://api.box.com/2.0/folders';
+        var uploadHeader = {
+            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        };
+
+        $.ajax({       
+            url: uploadUrl,
+            headers: uploadHeader,
+            type:'POST',
+            data: JSON.stringify({ name: fileName, parent: { id: '83025545413' } }),
+            // Prevent JQuery from appending as querystring:
+            cache: false,
+            contentType: 'json',
+            processData: false,
+            success: function(data){ 
+                resolve(data);
+            },
+            error: function(){
+                reject();
+            }
+        });
+    })
 }
 
-// Document Folder Creation
 function appFolderCreate(folderId) {
+    return new Promise((resolve, reject) => {
+
+        var fileName = "Application";
+        var uploadUrl = 'https://api.box.com/2.0/folders';
+        var uploadHeader = {
+            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        };
+
+        $.ajax({       
+            url: uploadUrl,
+            headers: uploadHeader,
+            type:'POST',
+            data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+            // Prevent JQuery from appending as querystring:
+            cache: false,
+            contentType: 'json',
+            processData: false,
+            success: function(data){ 
+                resolve([data, folderId]);
+            },
+            error: function(){
+                reject(); 
+            }
+        });
+    })
+}
+
+function uploadFiles(appFolderID, entFolderID) {
+
+    var fileCount = $('.custom-file-input').length;
+
+    for (var i = 1; i <= fileCount; i++) { 
+        var file = $("#fiac-select" + i.toString(10))[0]; 
+
+        // Skip blank file uploads
+        if (file.files.length == 0) {
+            continue;
+        } else if (i == 6) {
+            privFolderCreate(entFolderID, file.files[0]);
+        }
+        else {
+            fileUpload(file.files[0], appFolderID, i).then(data => {
+                console.log("Upload Success: #" + i);
+                document.getElementById("file_" + i.toString(10)).style.display = "block";
+            }).catch(error => {
+                document.getElementById("loading-list").style.display = "none";
+                document.getElementById("fail-list").style.display = "block";
+                reject();
+                break;
+            });
+
+            // If last iteration
+            if (i = 8) {
+
+            }
+        }
+    };
+    resolve(); 
+}
+
+function privFolderCreate(folderId, file) {
     
-    var fileName = "Application";
+    var fileName = "Private Documents";
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
     };
 
     $.ajax({       
@@ -54,137 +122,122 @@ function appFolderCreate(folderId) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload('1', data["id"]); 
-            fileUpload('2', data["id"]); 
+            fileUpload(file, data["id"], 6);
         },
         error: function(data){
-            console.log("App Folder Create Error");
+            console.log("Private Folder Create Error");
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("error-list").style.display = "block";
         }
     });
-
 }
 
-// Get Application Number 
-function getAppNumber()
-{
-    var appNum = "0";
-    var uploadUrl = 'https://api.box.com/2.0/folders/80802264662?fields=tags';
-    var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-    };
+function fileUpload(file, parentId, i) {
+    return new Promise((resolve, reject) => {
+        // var selectorId =  "fiac-select" + elementId;
+        // var fileSelect = document.getElementById(selectorId);
+        // var file = fileSelect.files[0];
 
-    $.ajax({       
-        url: uploadUrl,
-        headers: uploadHeader,
-        type:'GET',
-        cache: false,
-        contentType: 'json',
-        processData: false,
-        success: function(data){ 
-            if (data["tags"].length == 1) {
-                appNum = data["tags"][0].replace(/\D/g,'').trim(); // Strip all non-digits 
-                appNum = (parseInt(appNum, 10) + 1).toString(10); 
-                console.log("AppNum Retreived: " + appNum);
+        var fileName = fileNameMap.get(i)
+        var formData = new FormData();
+        formData.append(fileName, file, fileName); // Selected File
+        formData.append('parent_id', parentId); // Parent
+
+        // API 
+        var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
+        var uploadHeader = {
+            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        };
+
+        $.ajax({
+            url: uploadUrl,
+            headers: uploadHeader,
+            type:'POST',
+            data: formData,
+            // Prevent JQuery from appending as querystring:
+            cache: false,
+            contentType: false,
+            processData: false,
+            // Feedback: 
+            success: function(data) { 
+                resolve(data);
+            },
+            error: function(data){
+                reject();
             }
-            return appNum; 
-        },
-        error: function(data){
-            console.log("AppNum Retreive Error");
-            return appNum; 
-        }
-    }); 
-}
-
-// // Increment Application Number 
-// function incrementAppNum(appNum) {
-
-//     var uploadUrl = 'https://api.box.com/2.0/folders/81926499924';
-//     var uploadHeader = {
-//         'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-//     };
-
-//     $.ajax({       
-//         url: uploadUrl,
-//         headers: uploadHeader,
-//         type:'PUT',
-//         data: JSON.stringify({ name: appNum }),
-//         cache: false,
-//         contentType: 'json',
-//         processData: false,
-//         success: function(data){ 
-//             console.log("AppNum Updated");
-//         },
-//         error: function(data){
-//             console.log("AppNum Update Error");
-//         }
-//     });
-// }
-
-// File Upload
-function fileUpload(elementId, parentId) {
-    var selectorId =  "fiac-select" + elementId;
-
-    var fileSelect = document.getElementById(selectorId);
-    var file = fileSelect.files[0];
-    
-    var formData = new FormData();
-    formData.append(file.name, file, file.name); // Selected File
-    formData.append('parent_id', parentId); // Parent
-
-    // API 
-    var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-    var uploadHeader = {
-        'Authorization': 'Bearer ekvdWNS6XzZmi4nYFaAuI8nvRWVpa1kB'
-    };
-
-    $.ajax({
-        url: uploadUrl,
-        headers: uploadHeader,
-        type:'POST',
-        data: formData,
-        // Prevent JQuery from appending as querystring:
-        cache: false,
-        contentType: false,
-        processData: false,
-        // Feedback: 
-        success: function(data) { 
-            console.log("Upload Succes (F" + elementId + "):");
-        },
-        error: function(data){
-            console.log("Upload Error (F" + elementId + "):");
-        }
-    });
+        });
+    })
 }
 
 // Master Script Start
 $(document).ready(function (e) {
 
-    // Form Submit
-    $('#fiac-upload-form').on('submit',(function(e) {
-        // Prevent default form submission
-        e.preventDefault();
-        // AppnNum 
-        var appNum = getAppNumber(); 
-        console.log("Got app var");
-        // Create Application Folder, Nested Doc Folder
-        entFolderCreate(appNum);
-    }));
+    // Enable Refresh Prompt
+    window.onbeforeunload = function() {
+        return true;
+    };
 
-    // Validations
-    $('#fiac-select1').on('change', function(){
-        var fileName = $(this).val();
-        $(this).next('.custom-file-label').html(fileName);
+    // Validity
+    $(".custom-file-input").each( function() {
+        $(this)[0].setAttribute("accept", ".pdf,application/pdf");
     });
-    $('#fiac-select2').on('change', function(){
-        var fileName = $(this).val();
+
+    $('.custom-file-input').on('change', function(){
+        // Add fileName to file label
+        var fileDir = $(this).val().split("\\");
+        var fileName = fileDir[fileDir.length-1]; 
         $(this).next('.custom-file-label').html(fileName);
-    });
+    }); 
 
     $('#biz-name-input')[0].oninvalid = function () {
-        this.setCustomValidity('Enter a name without using the special characters "/", "\\", ".", & ".." ');
+        this.setCustomValidity('Enter a name without using the special characters /, \\, and .');
     };
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
     };
-  
+
+    // Other Listeners
+    $('#modal-close').on('click', function(){
+        document.getElementById("loading-list").style.display = "block";
+        document.getElementById("name-list").style.display = "none";
+        document.getElementById("loading-modal").style.display = "none";
+    });
+
+    // Form Submision
+    $('#fiac-upload-form').on('submit',(function(e) {
+        // Prevent default form submission
+        e.preventDefault();
+        document.getElementById("loading-modal").style.display = "block"; 
+        document.getElementById("name-list").style.display = "none"; 
+        document.getElementById("fail-list").style.display = "none"; 
+        document.getElementById("error-list").style.display = "none"; 
+        document.getElementById("success-list").style.display = "none"; 
+        document.getElementById("file_1").style.display = "none"; 
+        document.getElementById("file_2").style.display = "none"; 
+        document.getElementById("file_3").style.display = "none"; 
+        document.getElementById("file_4").style.display = "none"; 
+        document.getElementById("file_5").style.display = "none"; 
+        document.getElementById("file_6").style.display = "none"; 
+        document.getElementById("file_7").style.display = "none"; 
+        document.getElementById("file_8").style.display = "none"; 
+
+        // Create Enterprise Folder, Nested App Folder
+        entFolderCreate().then(data => {
+            appFolderCreate(data["id"]).then(arr => {
+                uploadFiles(arr[0]["id"], arr[1]);
+            })
+            .catch(error => {
+                console.log("App Folder Create Error");
+                document.getElementById("loading-list").style.display = "none";
+                document.getElementById("error-list").style.display = "block";
+            });
+        })
+        .catch(error => {
+            console.log("Enterprise Folder Create Error");
+            document.getElementById("loading-list").style.display = "none";
+            document.getElementById("name-list").style.display = "block";
+        });
+
+    }));
+
 });
