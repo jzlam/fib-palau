@@ -142,12 +142,15 @@ function uploadFiles(appFolderID, entFolderID) {
 }
 
 function privFolderCreate(folderId, file) {
+    console.log("creating folder");
     //When private folder uploaded, upload private file
     privFolderUpload(folderId, file)
         .then(data => {
+            console.log("uploading file");
             return fileUpload(file, data["id"], 6);
         })
         .catch(data => {
+            console.log("failed uploading folder");
             UIfeedBack("Private Folder", "error");
             return fileUpload(file, data["id"], 6);  
         });
