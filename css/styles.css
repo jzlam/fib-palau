@@ -127,23 +127,28 @@ table th {
   text-align: right;
 }
 
-#fiac-upload-form {
+#fiac-upload-form,
+#qr-upload-form {
   width: 87.5%; 
   padding: 5%; 
   border: 1px solid lightgray; 
   margin: auto;
 }
 
-#fiac-upload-form label {
+#fiac-upload-form label,
+#qr-upload-form label {
   overflow: hidden;
 }
 
-#fiac-upload-form div.form-group input { 
+#fiac-upload-form div.form-group input,
+#qr-upload-form div.form-group input,
+#qr-upload-form div.form-group select { 
   width: 50%;
   margin-left: 2.5px;
   min-width: 230px;
 }
-#fiac-upload-form div.custom-file {
+#fiac-upload-form div.custom-file, 
+#qr-upload-form div.custom-file {
   width: 60%; 
   margin: 2.5px;
   min-width: 230px;
@@ -160,6 +165,11 @@ div.portal {
   margin-top: 0; 
   padding-bottom: 55px; 
   margin-bottom: 55px;
+}
+
+div.sub-reminder {
+  width: 87.5%; 
+  margin: auto;
 }
 
 /*  Loading Modal  */

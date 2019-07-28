@@ -1,112 +1,32 @@
-
 // Preset filenames for upload
 var fileNameMap = new Map([
-    [1 , "1. FIAC.pdf"], 
-    [2 , "2. Commercial Documents (§6 and 7).pdf"],
-    [3, "3. Business Profiles (§8 and 9).pdf"], 
-    [4, "Affiliated Enterprises (§10, 11, and 12).pdf"], 
-    [5, "5. Proof of Financial Responsibility (§13).pdf"], 
-    [6, "6. Financial Statement (§13 d) i.).pdf"], 
-    [7, "7. Business Proposal (§14).pdf"], 
-    [8, "8. Applicant Attachment (§15).pdf"] 
+    [1 , "1. QR Form.pdf"], 
+    [2 , "2. Location (§3).pdf"],
+    [3, "3. Licenses (§7).pdf"], 
+    [4, "4. Employees (§8).pdf"], 
+    [5, "5. Employee Programs (§9).pdf"], 
+    [6, "6. Tax Information (§10-14).pdf"], 
+    [7, "7. Corporate Updates & Loans (§15-17).pdf"], 
+    [8, "8. Report Attachment.pdf"] 
 ]);
 
+// Upload error & progress notifications
+function UIfeedBack(name, list) {
+    console.log(name + " Create Error");
+    document.getElementById("loading-list").style.display = "none";
+    document.getElementById(list + "-list").style.display = "block";
+}
+
 // Enterprise Folder Creation
-function entFolderCreate() {
-    return new Promise((resolve, reject) => {
-
-        var bizName = document.getElementById("biz-name-input").value.trim();
-        var currYear = new Date().getFullYear(); 
-        var fileName = " - " + currYear + ": " + bizName; // User Input
-        
-        var uploadUrl = 'https://api.box.com/2.0/folders';
-        var uploadHeader = {
-            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
-        };
-
-        $.ajax({       
-            url: uploadUrl,
-            headers: uploadHeader,
-            type:'POST',
-            data: JSON.stringify({ name: fileName, parent: { id: '83025545413' } }),
-            // Prevent JQuery from appending as querystring:
-            cache: false,
-            contentType: 'json',
-            processData: false,
-            success: function(data){ 
-                resolve(data);
-            },
-            error: function(){
-                reject();
-            }
-        });
-    })
-}
-
-function appFolderCreate(folderId) {
-    return new Promise((resolve, reject) => {
-
-        var fileName = "Application";
-        var uploadUrl = 'https://api.box.com/2.0/folders';
-        var uploadHeader = {
-            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
-        };
-
-        $.ajax({       
-            url: uploadUrl,
-            headers: uploadHeader,
-            type:'POST',
-            data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
-            // Prevent JQuery from appending as querystring:
-            cache: false,
-            contentType: 'json',
-            processData: false,
-            success: function(data){ 
-                resolve([data, folderId]);
-            },
-            error: function(){
-                reject(); 
-            }
-        });
-    })
-}
-
-function uploadFiles(appFolderID, entFolderID) {
-
-    var fileCount = $('.custom-file-input').length;
-
-    for (var i = 1; i <= fileCount; i++) { 
-        var file = $("#fiac-select" + i.toString(10))[0]; 
-
-        // Skip blank file uploads
-        if (file.files.length == 0) {
-            continue;
-        } else if (i == 6) {
-            privFolderCreate(entFolderID, file.files[0]);
-        }
-        else {
-            fileUpload(file.files[0], appFolderID, i).then(data => {
-                console.log("Upload Success: #" + i);
-                document.getElementById("file_" + i.toString(10)).style.display = "block";
-            }).catch(error => {
-                document.getElementById("loading-list").style.display = "none";
-                document.getElementById("fail-list").style.display = "block";
-                reject();
-                break;
-            });
-
-            // If last iteration
-            if (i = 8) {
-
-            }
-        }
-    };
-    resolve(); 
-}
-
-function privFolderCreate(folderId, file) {
+function qrFolderCreate() {
     
-    var fileName = "Private Documents";
+    var bizName = document.getElementById("biz-name-input").value.trim();
+    var currYear = new Date().getFullYear(); 
+    var qrtrSelect = document.getElementById("quarter-select"); 
+    var quarter = qrtrSelect.options[qrtrSelect.selectedIndex].value;
+
+    var fileName = quarter + " - " + currYear + ": " + bizName; // User Input
+
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
         'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
@@ -116,57 +36,77 @@ function privFolderCreate(folderId, file) {
         url: uploadUrl,
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+        data: JSON.stringify({ name: fileName, parent: { id: '83025242970' } }),
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload(file, data["id"], 6);
+            uploadFiles(data["id"]);
         },
         error: function(data){
-            console.log("Private Folder Create Error");
-            document.getElementById("loading-list").style.display = "none";
-            document.getElementById("error-list").style.display = "block";
+            UIfeedBack("QR Folder", "name"); 
         }
     });
 }
 
-function fileUpload(file, parentId, i) {
-    return new Promise((resolve, reject) => {
-        // var selectorId =  "fiac-select" + elementId;
-        // var fileSelect = document.getElementById(selectorId);
-        // var file = fileSelect.files[0];
+function uploadFiles(qrFolderID) {
 
-        var fileName = fileNameMap.get(i)
-        var formData = new FormData();
-        formData.append(fileName, file, fileName); // Selected File
-        formData.append('parent_id', parentId); // Parent
+    var apiCalls = [];
 
-        // API 
-        var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-        var uploadHeader = {
-            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
-        };
+    for (var i = 1; i <= 8; i++) { 
+        var file = $("#fiac-select" + i.toString(10))[0]; 
 
-        $.ajax({
-            url: uploadUrl,
-            headers: uploadHeader,
-            type:'POST',
-            data: formData,
-            // Prevent JQuery from appending as querystring:
-            cache: false,
-            contentType: false,
-            processData: false,
-            // Feedback: 
-            success: function(data) { 
-                resolve(data);
-            },
-            error: function(data){
-                reject();
+        // Skip blank file uploads
+        if (file.files.length == 0) {
+            continue;
+        } else {
+            apiCalls.push( fileUpload(file.files[0], qrFolderID, i) ); 
+        }
+    };
+
+    // Display appropriate prompt 
+    //      WHEN async calls done
+    $.when.apply($, apiCalls)
+    .then(
+        function () {
+            var errorPresent = $("#fail-list").is(":visible") || $("#name-list").is(":visible")
+            if ( !errorPresent ) {
+                UIfeedBack("SUCCESS: There is no","success");
             }
-        });
-    })
+    });
+}
+
+function fileUpload(file, parentID, i) {
+
+    var fileName = fileNameMap.get(i);
+    var formData = new FormData();
+    formData.append(fileName, file, fileName); // Selected File
+    formData.append('parent_id', parentID); // Parent
+
+    // API 
+    var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
+    var uploadHeader = {
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+    };
+
+    return $.ajax({
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        // Feedback: 
+        success: function(data) { 
+            console.log("Upload Success: " + i);
+            document.getElementById("file_" + i.toString(10)).style.display = "block";
+        },
+        error: function(data){
+            UIfeedBack("File " + i, "fail");  
+        }
+    });
 }
 
 // Master Script Start
@@ -204,13 +144,12 @@ $(document).ready(function (e) {
     });
 
     // Form Submision
-    $('#fiac-upload-form').on('submit',(function(e) {
+    $('#qr-upload-form').on('submit',(function(e) {
         // Prevent default form submission
         e.preventDefault();
         document.getElementById("loading-modal").style.display = "block"; 
         document.getElementById("name-list").style.display = "none"; 
         document.getElementById("fail-list").style.display = "none"; 
-        document.getElementById("error-list").style.display = "none"; 
         document.getElementById("success-list").style.display = "none"; 
         document.getElementById("file_1").style.display = "none"; 
         document.getElementById("file_2").style.display = "none"; 
@@ -221,23 +160,8 @@ $(document).ready(function (e) {
         document.getElementById("file_7").style.display = "none"; 
         document.getElementById("file_8").style.display = "none"; 
 
-        // Create Enterprise Folder, Nested App Folder
-        entFolderCreate().then(data => {
-            appFolderCreate(data["id"]).then(arr => {
-                uploadFiles(arr[0]["id"], arr[1]);
-            })
-            .catch(error => {
-                console.log("App Folder Create Error");
-                document.getElementById("loading-list").style.display = "none";
-                document.getElementById("error-list").style.display = "block";
-            });
-        })
-        .catch(error => {
-            console.log("Enterprise Folder Create Error");
-            document.getElementById("loading-list").style.display = "none";
-            document.getElementById("name-list").style.display = "block";
-        });
-
+        // Create Enterprise Folder, Nested Doc Folder
+        qrFolderCreate();
     }));
 
 });

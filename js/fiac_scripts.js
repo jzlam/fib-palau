@@ -106,15 +106,15 @@ function uploadFiles(appFolderID, entFolderID) {
 
 // Implemented embedded Promise, to accomodate Promise.all / .when in uploadFiles()
 function privFolderHandler(folderId, file) {
-    console.log("creating folder");
+    console.log("Creating Priv Folder");
     //When private folder uploaded, upload private file
     privFolderUpload(folderId, file)
         .then(data => {
-            console.log("uploading file");
+            console.log("Uploading Priv File");
             return fileUpload(file, data["id"], 6);
         })
         .catch(data => {
-            console.log("failed uploading folder");
+            console.log("Failed Uploading Priv Folder");
             UIfeedBack("Private Folder", "fail");
             return fileUpload(file, data["id"], 6);  
         });
