@@ -142,6 +142,19 @@ function uploadFiles(appFolderID, entFolderID) {
 }
 
 function privFolderCreate(folderId, file) {
+    //When private folder uploaded, upload private file
+    privFolderUpload(folderId, file)
+        .then(data => {
+            return fileUpload(file, data["id"], 6);
+        })
+        .catch(data => {
+            UIfeedBack("Private Folder", "error");
+            return fileUpload(file, data["id"], 6);  
+        });
+}
+
+function privFolderUpload(folderId, file) {
+    return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
     var uploadUrl = 'https://api.box.com/2.0/folders';
@@ -159,14 +172,16 @@ function privFolderCreate(folderId, file) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            return fileUpload(file, data["id"], 6);
+            resolve(data);
+            // return fileUpload(file, data["id"], 6);
         },
         error: function(data){
-            UIfeedBack("Private Folder", "error");
-            return Promise.resolve(1); 
+            reject(data); 
+            // UIfeedBack("Private Folder", "error");
+            // return Promise.resolve(1); 
         }
     });
-
+    })
 }
 
 function fileUpload(file, parentID, i) {
