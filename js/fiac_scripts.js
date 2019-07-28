@@ -76,8 +76,7 @@ function appFolderCreate(folderId) {
 
 function uploadFiles(appFolderID, entFolderID) {
 
-    var fileCount = $('.custom-file-input').length;
-    var apiCalls = []; 
+    var apiCalls = [] 
 
     for (var i = 1; i <= fileCount; i++) { 
         var file = $("#fiac-select" + i.toString(10))[0]; 
@@ -90,22 +89,57 @@ function uploadFiles(appFolderID, entFolderID) {
             privFolderCreate(entFolderID, file.files[0]);
         }
         else {
-            apiCalls.push( fileUpload(file.files[0], appFolderID, i)
-            .then(data => {
-                console.log("Upload Success: " + i);
-                document.getElementById("file_" + i.toString(10)).style.display = "block";
-            })
-            .catch(data => {
-                UIfeedBack("File " + i, "fail");  
-            }) 
-            );
+            apiCalls.push( fileUpload(file.files[0], appFolderID, i) ); 
         }
     };
 
-    // Display confirmation prompt
-    Promise.all([apiCalls]).then(values => { 
-        UIfeedBack("SUCCESS: There is no","success");
-    });
+    // Display appropriate prompt 
+    //      WHEN async calls done
+    $.when.apply($, apiCalls)
+    .then(
+        function () {
+            var errorPresent = $("#fail-list").is(":visible") || $("#error-list").is(":visible") || $("#name-list").is(":visible")
+            if ( !errorPresent ) {
+                UIfeedBack("SUCCESS: There is no","success");
+            }
+        }
+    );
+    
+    // Promise.all([
+    //     fileUpload(file.files[0], appFolderID, i).then(data => {
+    //             console.log("Upload Success: " + i);
+    //             document.getElementById("file_" + i.toString(10)).style.display = "block";})
+    //         .catch(data => {
+    //             UIfeedBack("File " + i, "fail");})
+    //     ]).then(values => { 
+    //     UIfeedBack("SUCCESS: There is no","success");
+    // });
+
+    // var file1 = $("#fiac-select1")[0].files[0]; 
+    // var file2 = $("#fiac-select2")[0].files[0]; 
+    // var file3 = $("#fiac-select3")[0].files[0]; 
+    // var file4 = $("#fiac-select4")[0].files[0]; 
+    // var file5 = $("#fiac-select5")[0].files[0]; 
+    // var file6 = $("#fiac-select6")[0].files[0]; 
+    // var file7 = $("#fiac-select7")[0].files[0]; 
+    // var file8 = $("#fiac-select8")[0].files[0]; 
+
+    // $.when(
+    //     fileUpload(file1, appFolderID, i),
+    //     fileUpload(file2, appFolderID, i),
+    //     fileUpload(file3, appFolderID, i),
+    //     fileUpload(file4, appFolderID, i),
+    //     fileUpload(file5, appFolderID, i),
+    //     fileUpload(file6, appFolderID, i),
+    //     fileUpload(file7, appFolderID, i),
+    //     fileUpload(file8, appFolderID, i)
+    // ).then(
+    //     function(){
+    //         UIfeedBack("SUCCESS: There is no","success");
+    //     }, function(){
+    //         console.log("FILE UPLOAD FAILED");
+    //     } 
+    // );
 }
 
 function privFolderCreate(folderId, file) {
@@ -138,41 +172,35 @@ function privFolderCreate(folderId, file) {
 }
 
 function fileUpload(file, parentID, i) {
-    return new Promise(function (resolve, reject) {
-        // var selectorId =  "fiac-select" + elementId;
 
-        // var fileSelect = document.getElementById(selectorId);
-        // var file = fileSelect.files[0];
+    var fileName = fileNameMap.get(i);
+    var formData = new FormData();
+    formData.append(fileName, file, fileName); // Selected File
+    formData.append('parent_id', parentID); // Parent
 
-        var fileName = fileNameMap.get(i)
-        var formData = new FormData();
-        formData.append(fileName, file, fileName); // Selected File
-        formData.append('parent_id', parentID); // Parent
+    // API 
+    var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
+    var uploadHeader = {
+        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+    };
 
-        // API 
-        var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-        var uploadHeader = {
-            'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
-        };
-
-        $.ajax({
-            url: uploadUrl,
-            headers: uploadHeader,
-            type:'POST',
-            data: formData,
-            // Prevent JQuery from appending as querystring:
-            cache: false,
-            contentType: false,
-            processData: false,
-            // Feedback: 
-            success: function(data) { 
-                resolve(data);
-            },
-            error: function(data){
-                reject();
-            }
-        });
-    })
+    return $.ajax({
+        url: uploadUrl,
+        headers: uploadHeader,
+        type:'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        // Feedback: 
+        success: function(data) { 
+            console.log("Upload Success: " + i);
+            document.getElementById("file_" + i.toString(10)).style.display = "block";
+        },
+        error: function(data){
+            UIfeedBack("File " + i, "fail");  
+        }
+    });
 }
 
 // Master Script Start
