@@ -68,7 +68,7 @@ function appFolderCreate(folderId) {
             uploadFiles(data["id"], folderId);
         },
         error: function(data){
-            UIfeedBack("App Folder", "error"); 
+            UIfeedBack("App Folder", "fail"); 
         }
     });
 
@@ -76,7 +76,7 @@ function appFolderCreate(folderId) {
 
 function uploadFiles(appFolderID, entFolderID) {
 
-    var apiCalls = [] 
+    var apiCalls = [];
 
     for (var i = 1; i <= 8; i++) { 
         var file = $("#fiac-select" + i.toString(10))[0]; 
@@ -85,7 +85,7 @@ function uploadFiles(appFolderID, entFolderID) {
         if (file.files.length == 0) {
             continue;
         } else if (i == 6) {
-            apiCalls.push( privFolderCreate(entFolderID, file.files[0]) );
+            apiCalls.push( privFolderHandler(entFolderID, file.files[0]) );
         }
         else {
             apiCalls.push( fileUpload(file.files[0], appFolderID, i) ); 
@@ -97,51 +97,15 @@ function uploadFiles(appFolderID, entFolderID) {
     $.when.apply($, apiCalls)
     .then(
         function () {
-            var errorPresent = $("#fail-list").is(":visible") || $("#error-list").is(":visible") || $("#name-list").is(":visible")
+            var errorPresent = $("#fail-list").is(":visible") || $("#name-list").is(":visible")
             if ( !errorPresent ) {
                 UIfeedBack("SUCCESS: There is no","success");
             }
-        }
-    );
-    
-    // Promise.all([
-    //     fileUpload(file.files[0], appFolderID, i).then(data => {
-    //             console.log("Upload Success: " + i);
-    //             document.getElementById("file_" + i.toString(10)).style.display = "block";})
-    //         .catch(data => {
-    //             UIfeedBack("File " + i, "fail");})
-    //     ]).then(values => { 
-    //     UIfeedBack("SUCCESS: There is no","success");
-    // });
-
-    // var file1 = $("#fiac-select1")[0].files[0]; 
-    // var file2 = $("#fiac-select2")[0].files[0]; 
-    // var file3 = $("#fiac-select3")[0].files[0]; 
-    // var file4 = $("#fiac-select4")[0].files[0]; 
-    // var file5 = $("#fiac-select5")[0].files[0]; 
-    // var file6 = $("#fiac-select6")[0].files[0]; 
-    // var file7 = $("#fiac-select7")[0].files[0]; 
-    // var file8 = $("#fiac-select8")[0].files[0]; 
-
-    // $.when(
-    //     fileUpload(file1, appFolderID, i),
-    //     fileUpload(file2, appFolderID, i),
-    //     fileUpload(file3, appFolderID, i),
-    //     fileUpload(file4, appFolderID, i),
-    //     fileUpload(file5, appFolderID, i),
-    //     fileUpload(file6, appFolderID, i),
-    //     fileUpload(file7, appFolderID, i),
-    //     fileUpload(file8, appFolderID, i)
-    // ).then(
-    //     function(){
-    //         UIfeedBack("SUCCESS: There is no","success");
-    //     }, function(){
-    //         console.log("FILE UPLOAD FAILED");
-    //     } 
-    // );
+    });
 }
 
-function privFolderCreate(folderId, file) {
+// Implemented embedded Promise, to accomodate Promise.all / .when in uploadFiles()
+function privFolderHandler(folderId, file) {
     console.log("creating folder");
     //When private folder uploaded, upload private file
     privFolderUpload(folderId, file)
@@ -151,7 +115,7 @@ function privFolderCreate(folderId, file) {
         })
         .catch(data => {
             console.log("failed uploading folder");
-            UIfeedBack("Private Folder", "error");
+            UIfeedBack("Private Folder", "fail");
             return fileUpload(file, data["id"], 6);  
         });
 }
@@ -176,12 +140,9 @@ function privFolderUpload(folderId, file) {
         processData: false,
         success: function(data){ 
             resolve(data);
-            // return fileUpload(file, data["id"], 6);
         },
         error: function(data){
             reject(data); 
-            // UIfeedBack("Private Folder", "error");
-            // return Promise.resolve(1); 
         }
     });
     })
@@ -260,7 +221,6 @@ $(document).ready(function (e) {
         document.getElementById("loading-modal").style.display = "block"; 
         document.getElementById("name-list").style.display = "none"; 
         document.getElementById("fail-list").style.display = "none"; 
-        document.getElementById("error-list").style.display = "none"; 
         document.getElementById("success-list").style.display = "none"; 
         document.getElementById("file_1").style.display = "none"; 
         document.getElementById("file_2").style.display = "none"; 
