@@ -78,15 +78,14 @@ function uploadFiles(appFolderID, entFolderID) {
 
     var apiCalls = [] 
 
-    for (var i = 1; i <= fileCount; i++) { 
+    for (var i = 1; i <= 8; i++) { 
         var file = $("#fiac-select" + i.toString(10))[0]; 
 
         // Skip blank file uploads
         if (file.files.length == 0) {
             continue;
         } else if (i == 6) {
-            continue;
-            privFolderCreate(entFolderID, file.files[0]);
+            apiCalls.push( privFolderCreate(entFolderID, file.files[0]) );
         }
         else {
             apiCalls.push( fileUpload(file.files[0], appFolderID, i) ); 
@@ -160,12 +159,11 @@ function privFolderCreate(folderId, file) {
         contentType: 'json',
         processData: false,
         success: function(data){ 
-            fileUpload(file, data["id"], 6);
+            return fileUpload(file, data["id"], 6);
         },
         error: function(data){
-            console.log("Private Folder Create Error");
-            document.getElementById("loading-list").style.display = "none";
-            document.getElementById("error-list").style.display = "block";
+            UIfeedBack("Private Folder", "error");
+            return Promise.resolve(1); 
         }
     });
 
