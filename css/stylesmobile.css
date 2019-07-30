@@ -17,3 +17,12 @@
     }
 
 }
+
+
+@media screen and (max-width: 600px) {
+   
+    div.form-div {
+      width: 100%;
+    }
+
+}

@@ -158,6 +158,12 @@ div.form-div {
   width: 50%;
   text-align: center;
   float: left;
+  margin-bottom: 20px;
+}
+
+div.form-div p {
+  font-size: 1.25em;
+  color: gray;
 }
 
 div.portal {
