@@ -22,7 +22,7 @@ function entFolderCreate() {
     
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
-    var fileName = " - " + currYear + ": " + bizName; // User Input
+    var fileName = " - " + currYear + "; " + bizName; // User Input
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {

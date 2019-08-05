@@ -25,7 +25,7 @@ function qrFolderCreate() {
     var qrtrSelect = document.getElementById("quarter-select"); 
     var quarter = qrtrSelect.options[qrtrSelect.selectedIndex].value;
 
-    var fileName = quarter + " - " + currYear + ": " + bizName; // User Input
+    var fileName = quarter + " - " + currYear + "; " + bizName; // User Input
 
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
