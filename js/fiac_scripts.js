@@ -19,27 +19,28 @@ function UIfeedBack(name, list) {
 
 // Enterprise Folder Creation
 function entFolderCreate() {
-    
     var bizName = document.getElementById("biz-name-input").value.trim();
     var currYear = new Date().getFullYear(); 
     var fileName = " - " + currYear + "; " + bizName; // User Input
-    
-    var uploadUrl = 'https://api.box.com/2.0/folders';
+    console.log(`Trying to create folder with name: "${fileName}"`);
+
+    //var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
     };
 
     $.ajax({       
-        url: uploadUrl,
+        url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: '83025545413' } }),
+        data: JSON.stringify({ name: fileName, parentId: '325118915175' } ),
+        //creates new folder in "Submitted" folder
         // Prevent JQuery from appending as querystring:
         cache: false,
-        contentType: 'json',
+        contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            appFolderCreate(data["id"]);
+            uploadFiles( data["id"], data["id"]) //check this func
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -47,22 +48,23 @@ function entFolderCreate() {
     });
 }
 
-function appFolderCreate(folderId) {
-    
-    var fileName = "Application";
-    var uploadUrl = 'https://api.box.com/2.0/folders';
+/* function appFolderCreate(folderId) {
+    var fileName = "Application"
+
+    //var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer HGCICtLfJsUs87CIwVjOAZ8Ux0i2EKUX'
     };
+    console.log("created application folder in" + folderId )
 
     $.ajax({       
-        url: uploadUrl,
+        url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+        data: JSON.stringify({ name: fileName, parentId: folderId } ),
         // Prevent JQuery from appending as querystring:
         cache: false,
-        contentType: 'json',
+        contentType: 'application/json',
         processData: false,
         success: function(data){ 
             uploadFiles(data["id"], folderId);
@@ -72,10 +74,9 @@ function appFolderCreate(folderId) {
         }
     });
 
-}
+} */
 
 function uploadFiles(appFolderID, entFolderID) {
-
     var apiCalls = [];
 
     for (var i = 1; i <= 8; i++) { 
@@ -120,23 +121,24 @@ function privFolderHandler(folderId, file) {
         });
 }
 
+//Creates folder named private
 function privFolderUpload(folderId, file) {
     return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
-    var uploadUrl = 'https://api.box.com/2.0/folders';
+    //var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
     };
 
     $.ajax({       
-        url: uploadUrl,
+        url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: folderId } }),
+        data: JSON.stringify({ name: fileName, parentId:folderId } ),
         // Prevent JQuery from appending as querystring:
         cache: false,
-        contentType: 'json',
+        contentType: 'application/json',
         processData: false,
         success: function(data){ 
             resolve(data);
@@ -149,20 +151,19 @@ function privFolderUpload(folderId, file) {
 }
 
 function fileUpload(file, parentID, i) {
-
     var fileName = fileNameMap.get(i);
     var formData = new FormData();
-    formData.append(fileName, file, fileName); // Selected File
+    formData.append('file', file, fileName); // Selected File
     formData.append('parent_id', parentID); // Parent
 
     // API 
-    var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
+    //var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
     };
 
     return $.ajax({
-        url: uploadUrl,
+        url: 'http://localhost:3000/upload-file',
         headers: uploadHeader,
         type:'POST',
         data: formData,

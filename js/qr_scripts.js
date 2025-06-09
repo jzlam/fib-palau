@@ -29,17 +29,17 @@ function qrFolderCreate() {
 
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer FMIEhcgaKtqNTmeahBxSnAaAI0noNAeA'
     };
 
     $.ajax({       
-        url: uploadUrl,
+        url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parent: { id: '25738166883' } }),
+        data: JSON.stringify({ name: fileName, parent: { id: '325118915175' } }),
         // Prevent JQuery from appending as querystring:
         cache: false,
-        contentType: 'json',
+        contentType: 'application/json',
         processData: false,
         success: function(data){ 
             uploadFiles(data["id"]);
@@ -87,7 +87,7 @@ function fileUpload(file, parentID, i) {
     // API 
     var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
     var uploadHeader = {
-        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
+        'Authorization': 'Bearer rfZup8t0DOVy0cP8pZ9JwVUHeT7T1MDg'
     };
 
     return $.ajax({
