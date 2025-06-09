@@ -26,7 +26,7 @@ function entFolderCreate() {
     
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
     };
 
     $.ajax({       
@@ -52,7 +52,7 @@ function appFolderCreate(folderId) {
     var fileName = "Application";
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
     };
 
     $.ajax({       
@@ -126,7 +126,7 @@ function privFolderUpload(folderId, file) {
     var fileName = "Private Documents";
     var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
     };
 
     $.ajax({       
@@ -158,7 +158,7 @@ function fileUpload(file, parentID, i) {
     // API 
     var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
     var uploadHeader = {
-        'Authorization': 'Bearer njmU875NmYxt0w1edQzFcGUcM4v300yf'
+        'Authorization': 'Bearer 9Tr07m3yE7xwjZQcHgNbvnrA1ZlLHCY7'
     };
 
     return $.ajax({
