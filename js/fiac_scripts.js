@@ -26,7 +26,7 @@ function entFolderCreate() {
 
     //var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
     };
 
     $.ajax({       
@@ -128,7 +128,7 @@ function privFolderUpload(folderId, file) {
     var fileName = "Private Documents";
     //var uploadUrl = 'https://api.box.com/2.0/folders';
     var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
     };
 
     $.ajax({       
@@ -159,7 +159,7 @@ function fileUpload(file, parentID, i) {
     // API 
     //var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
     var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
     };
 
     return $.ajax({
