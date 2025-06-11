@@ -6,7 +6,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-const BOX_TOKEN = '2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV';
+const BOX_TOKEN = '69ghvZc22483aFZDo6gZ1WlXOrvJrSui';
 
 app.use(cors());
 app.use(express.json());
