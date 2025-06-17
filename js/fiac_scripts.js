@@ -1,3 +1,6 @@
+const rootFolder = '325118915175'
+const DEV_TOKEN = '0Ccb5gkJBGsABHVV4f85ZDcZQDujb3DR'
+
 // Preset filenames for upload
 var fileNameMap = new Map([
     [1 , "1. FIAC.pdf"], 
@@ -48,13 +51,13 @@ function entFolderCreate() {
     });
 }
 
-/* function appFolderCreate(folderId) {
+function appFolderCreate(folderId) {
     var fileName = "Application"
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer HGCICtLfJsUs87CIwVjOAZ8Ux0i2EKUX'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
+
     console.log("created application folder in" + folderId )
 
     $.ajax({       
@@ -74,7 +77,7 @@ function entFolderCreate() {
         }
     });
 
-} */
+} 
 
 function uploadFiles(appFolderID, entFolderID) {
     var apiCalls = [];
@@ -157,9 +160,8 @@ function fileUpload(file, parentID, i) {
     formData.append('parent_id', parentID); // Parent
 
     // API 
-    //var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-    var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     return $.ajax({
