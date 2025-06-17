@@ -10,37 +10,38 @@ var fileNameMap = new Map([
     [8, "8. Applicant Attachment (§15).pdf"] 
 ]);
 
-// Upload error & progress notifications
-function UIfeedBack(name, list) {
-    console.log(name + " Create Error");
-    document.getElementById("loading-list").style.display = "none";
-    document.getElementById(list + "-list").style.display = "block";
-}
+const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
+const rootFolder = '325118915175'
+const DEV_TOKEN = ''
+
 
 // Enterprise Folder Creation
 function entFolderCreate() {
-    var bizName = document.getElementById("biz-name-input").value.trim();
+    var bizName = fiacForm.bizName;
+    console.log(`bizName: "${bizName}"`);
+
     var currYear = new Date().getFullYear(); 
     var fileName = " - " + currYear + "; " + bizName; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
 
     //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parentId: '325118915175' } ),
+        data: JSON.stringify({ name: fileName, parentId: rootFolder } ),
         //creates new folder in "Submitted" folder
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            uploadFiles( data["id"], data["id"]) //check this func
+            appFolderCreate(parentId)
+            //uploadFiles( data["id"], data["id"]) //check this func
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -48,7 +49,7 @@ function entFolderCreate() {
     });
 }
 
-/* function appFolderCreate(folderId) {
+function appFolderCreate(folderId) {
     var fileName = "Application"
 
     //var uploadUrl = 'https://api.box.com/2.0/folders';
@@ -74,7 +75,7 @@ function entFolderCreate() {
         }
     });
 
-} */
+} 
 
 function uploadFiles(appFolderID, entFolderID) {
     var apiCalls = [];
@@ -201,12 +202,12 @@ $(document).ready(function (e) {
         $(this).next('.custom-file-label').html(fileName);
     }); 
 
-    $('#biz-name-input')[0].oninvalid = function () {
+   /*  $('#biz-name-input')[0].oninvalid = function () {
         this.setCustomValidity('Enter a name without using the special characters /, \\, and .');
     };
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
-    };
+    }; */
 
     // Other Listeners
     $('#modal-close').on('click', function(){
