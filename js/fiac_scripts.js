@@ -12,8 +12,7 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = ''
-
+const DEV_TOKEN = '0Ccb5gkJBGsABHVV4f85ZDcZQDujb3DR'
 
 // Enterprise Folder Creation
 function entFolderCreate() {
@@ -24,7 +23,6 @@ function entFolderCreate() {
     var fileName = " - " + currYear + "; " + bizName; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
     const uploadHeader = {
         'Authorization': `Bearer ${DEV_TOKEN}`
     };
@@ -158,9 +156,8 @@ function fileUpload(file, parentID, i) {
     formData.append('parent_id', parentID); // Parent
 
     // API 
-    //var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     return $.ajax({
