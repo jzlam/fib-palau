@@ -1,5 +1,5 @@
 const rootFolder = '325118915175'
-const DEV_TOKEN = '0Ccb5gkJBGsABHVV4f85ZDcZQDujb3DR'
+const DEV_TOKEN = 'BsfnalzFIiObtB1bhJA8vsVC2Z3cLK4o'
 
 // Preset filenames for upload
 var fileNameMap = new Map([
@@ -27,9 +27,8 @@ function entFolderCreate() {
     var fileName = " - " + currYear + "; " + bizName; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     $.ajax({       
@@ -43,7 +42,7 @@ function entFolderCreate() {
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            uploadFiles( data["id"], data["id"]) //check this func
+            appFolderCreate( data["id"]) //check this func
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -129,9 +128,8 @@ function privFolderUpload(folderId, file) {
     return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 2TocJ2ItbjsESV1L6DtWldNzr0bUYCAV'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     $.ajax({       
