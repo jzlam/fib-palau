@@ -1,10 +1,10 @@
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'BsfnalzFIiObtB1bhJA8vsVC2Z3cLK4o'
+const DEV_TOKEN = 'peMGhMqSjhlnx8tCO4s4e8yJk6pfvwT4'
 
 // Preset filenames for upload
 var fileNameMap = new Map([
-    [1 , "1. FIAC.pdf"], 
-    [2 , "2. Commercial Documents (§6 and 7).pdf"],
+    [1, "1. FIAC.pdf"], 
+    [2, "2. Commercial Documents (§6 and 7).pdf"],
     [3, "3. Business Profiles (§8 and 9).pdf"], 
     [4, "4. Affiliated Enterprises (§10, 11, and 12).pdf"], 
     [5, "5. Proof of Financial Responsibility (§13).pdf"], 
