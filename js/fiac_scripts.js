@@ -1,7 +1,10 @@
+const rootFolder = '325118915175'
+const DEV_TOKEN = 'peMGhMqSjhlnx8tCO4s4e8yJk6pfvwT4'
+
 // Preset filenames for upload
 var fileNameMap = new Map([
-    [1 , "1. FIAC.pdf"], 
-    [2 , "2. Commercial Documents (§6 and 7).pdf"],
+    [1, "1. FIAC.pdf"], 
+    [2, "2. Commercial Documents (§6 and 7).pdf"],
     [3, "3. Business Profiles (§8 and 9).pdf"], 
     [4, "4. Affiliated Enterprises (§10, 11, and 12).pdf"], 
     [5, "5. Proof of Financial Responsibility (§13).pdf"], 
@@ -38,8 +41,7 @@ function entFolderCreate() {
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            appFolderCreate(parentId)
-            //uploadFiles( data["id"], data["id"]) //check this func
+            uploadFiles( data["id"], data["id"]) //check this func
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -50,10 +52,10 @@ function entFolderCreate() {
 function appFolderCreate(folderId) {
     var fileName = "Application"
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer HGCICtLfJsUs87CIwVjOAZ8Ux0i2EKUX'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
+
     console.log("created application folder in" + folderId )
 
     $.ajax({       
@@ -125,9 +127,8 @@ function privFolderUpload(folderId, file) {
     return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
+    const uploadHeader = {
+        'Authorization': `Bearer ${DEV_TOKEN}`
     };
 
     $.ajax({       
