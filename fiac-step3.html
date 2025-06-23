@@ -87,6 +87,11 @@
       <div class="form-group">
       Attach addendums for the following sections where needed. Only the sections marked as <b>(Required)</b> are necessary to submit an application.<br><br>
 
+      <label for="biz-name-input">Enter your business name exactly as written on your FIAC Application:</label>
+        <input required type="text" class="form-control" id="biz-name-input" placeholder="Business Name" pattern="^[^.^\/^\\]*$" minlength="1" maxlength="255">
+        <!-- Regex: No inputs containing "/", "\", or the special names ".." and "." for internal naming purposes -->
+      </div><hr>
+      
       1. Attach your completed FIAC Application<b> (Required)</b><br><br>
       <div class="custom-file">
         <input required type="file" class="custom-file-input" id="fiac-select1">

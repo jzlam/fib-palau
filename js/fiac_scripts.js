@@ -1,6 +1,3 @@
-const rootFolder = '325118915175'
-const DEV_TOKEN = 'peMGhMqSjhlnx8tCO4s4e8yJk6pfvwT4'
-
 // Preset filenames for upload
 var fileNameMap = new Map([
     [1, "1. FIAC.pdf"], 
@@ -15,7 +12,7 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = '0Ccb5gkJBGsABHVV4f85ZDcZQDujb3DR'
+const DEV_TOKEN = 'F9vi89kKIeRg7qAhLRdgqh5Whpplg7eX'
 
 // Enterprise Folder Creation
 function entFolderCreate() {
