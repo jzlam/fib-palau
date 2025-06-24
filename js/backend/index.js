@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-const DEV_TOKEN = 'peMGhMqSjhlnx8tCO4s4e8yJk6pfvwT4'
+const DEV_TOKEN = 'bE6J6tKoWAH8eBZ0MrcUEVa7VPVSwWJz'
 
 app.use(cors());
 app.use(express.json());

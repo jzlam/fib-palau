@@ -1,5 +1,5 @@
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'peMGhMqSjhlnx8tCO4s4e8yJk6pfvwT4'
+const DEV_TOKEN = 'bE6J6tKoWAH8eBZ0MrcUEVa7VPVSwWJz'
 
 // Preset filenames for upload
 var fileNameMap = new Map([
