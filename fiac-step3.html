@@ -1,8 +1,6 @@
 
 <!DOCTYPE html>
-
 <html lang="en"> 
-
 <head>
     <title>FIAC Application Form</title>
     <link rel="icon" href="assets/gov_logo.png">
@@ -10,7 +8,6 @@
     <!-- Metadata for the website -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content=" Maksym Kornyev">
     <meta name="keywords" content=" Palau, Foreign Investment Board, FIB, Office of the President, Submission, Portal">
     <meta name="description" content="Home of the FIB's Foreign Investment Approval Certificate submission portal.">
 
@@ -88,19 +85,20 @@
     <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-upload-form">
       
       <div class="form-group">
-        <label for="biz-name-input">Enter your business name exactly as written on your FIAC Application:</label>
+      Attach addendums for the following sections where needed. Only the sections marked as <b>(Required)</b> are necessary to submit an application.<br><br>
+
+      <label for="biz-name-input">Enter your business name exactly as written on your FIAC Application:</label>
         <input required type="text" class="form-control" id="biz-name-input" placeholder="Business Name" pattern="^[^.^\/^\\]*$" minlength="1" maxlength="255">
         <!-- Regex: No inputs containing "/", "\", or the special names ".." and "." for internal naming purposes -->
       </div><hr>
-      Attach addendums for the following sections where needed. Only the sections marked as <b>(Required)</b> are necessary to submit an application.<br><br>
-
+      
       1. Attach your completed FIAC Application<b> (Required)</b><br><br>
       <div class="custom-file">
         <input required type="file" class="custom-file-input" id="fiac-select1">
         <label class="custom-file-label" for="fiac-select1">Choose file...</label>
       </div><br><br>
 
-      2. Attach the Corporate Document sections of your application (&#167;6-7 of the FIAC)<br><br>
+      <!-- 2. Attach the Corporate Document sections of your application (&#167;6-7 of the FIAC)<br><br>
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select2">
         <label class="custom-file-label" for="fiac-select2">Choose file...</label>
@@ -145,7 +143,7 @@
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="fiac-select8">
         <label class="custom-file-label" for="fiac-select8">Choose file...</label>
-      </div><br><br>
+      </div><br><br> -->
 
       
       <!-- Submit -->

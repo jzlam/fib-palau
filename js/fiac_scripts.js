@@ -1,6 +1,3 @@
-const rootFolder = '325118915175'
-const DEV_TOKEN = 'bE6J6tKoWAH8eBZ0MrcUEVa7VPVSwWJz'
-
 // Preset filenames for upload
 var fileNameMap = new Map([
     [1, "1. FIAC.pdf"], 
@@ -13,16 +10,15 @@ var fileNameMap = new Map([
     [8, "8. Applicant Attachment (§15).pdf"] 
 ]);
 
-// Upload error & progress notifications
-function UIfeedBack(name, list) {
-    console.log(name + " Create Error");
-    document.getElementById("loading-list").style.display = "none";
-    document.getElementById(list + "-list").style.display = "block";
-}
+const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
+const rootFolder = '325118915175'
+const DEV_TOKEN = 'F9vi89kKIeRg7qAhLRdgqh5Whpplg7eX'
 
 // Enterprise Folder Creation
 function entFolderCreate() {
-    var bizName = document.getElementById("biz-name-input").value.trim();
+    var bizName = fiacForm.bizName;
+    console.log(`bizName: "${bizName}"`);
+
     var currYear = new Date().getFullYear(); 
     var fileName = " - " + currYear + "; " + bizName; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
@@ -35,14 +31,14 @@ function entFolderCreate() {
         url: 'http://localhost:3000/create-folder',
         headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parentId: '325118915175' } ),
+        data: JSON.stringify({ name: fileName, parentId: rootFolder } ),
         //creates new folder in "Submitted" folder
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            appFolderCreate( data["id"]) //check this func
+            uploadFiles( data["id"], data["id"]) //check this func
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -201,12 +197,12 @@ $(document).ready(function (e) {
         $(this).next('.custom-file-label').html(fileName);
     }); 
 
-    $('#biz-name-input')[0].oninvalid = function () {
+   /*  $('#biz-name-input')[0].oninvalid = function () {
         this.setCustomValidity('Enter a name without using the special characters /, \\, and .');
     };
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
-    };
+    }; */
 
     // Other Listeners
     $('#modal-close').on('click', function(){

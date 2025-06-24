@@ -1,17 +1,13 @@
 
-
 <!DOCTYPE html>
-
 <html lang="en"> 
-
 <head>
-    <title>FIB | Submission Portal</title>
+    <title>FIAC Application Form</title>
     <link rel="icon" href="assets/gov_logo.png">
     
     <!-- Metadata for the website -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content=" Maksym Kornyev">
     <meta name="keywords" content=" Palau, Foreign Investment Board, FIB, Office of the President, Submission, Portal">
     <meta name="description" content="Home of the FIB's Foreign Investment Approval Certificate submission portal.">
 
@@ -31,14 +27,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- JS -->
-    <!-- <script type="text/javascript" src="js/fiac_scripts.js"></script> -->
+    <script type="text/javascript" src="js/fiac_scripts.js"></script>
 
-    <!-- Box Styles + Scripts -->
-    <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.css"/>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script> <!-- For IE compatibility --> 
-    <script type="text/javascript" src="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.js"></script>
+    
+    <!-- <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.css"/>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script> 
+    <script type="text/javascript" src="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.js"></script> -->
 </head>
 
+<body>
 <div class="row header-img">
     <img class="header-logo" src="assets/gov_logo.png">
     <div class="header-text">
@@ -75,25 +72,36 @@
 <div class="fade-in">
 
   <div class="portal">
-    <br><emph><h2>Welcome to the FIB Submission Portal</h2></emph><br>
-    <p>Prior to starting a digital application, please take a look the <a href="new-investors.html">new</a> and <a href="current-investors.html">current</a> investor resource pages for a complete list of submission instructions and required documents. 
-    <!-- <br><br><i>Remember that submission of a digital FIAC is only a subset of the application process, and will not guarauntee the Board review of an application.</i></p> -->
-    <div class="form-div">
-      <p><b>Submit a FIAC Application:</b></p>
-      <a class="btn btn-primary" href="fiac-step2.html">FIAC Submission Form</a>
+    <br>
+    <emph><h2>FIAC Application Submission</h2></emph><br>
+    <i>Remember that submission of a digital FIAC is only a subset of the application process, and will not guarauntee the Board review of an application.</i> View the rest of the submission steps <a href="new-investors.html" >here</a>.</p><br>
+    
+    <div class="sub-reminder">
+    Keep the following in mind as you complete your application:<br><br>
+    <ul>
+      <li>Please format your attachments to include page numbers. You should reference a particular attachment's page number in a short note on the corresponding section of the FIAC Application.</li>
+    </ul>
     </div>
-    <div class="form-div" style="margin-bottom: 60px;">
-      <p><b>Submit a Quarterly Report:</b></p>
-      <a class="btn btn-primary" href="qr-sub.html">Quarterly Report Submission Form</a>
-    </div>
+
+    <form name="fiac" enctype="multipart/form-data" method="POST" id="fiac-name-form">
+      
+     
+
+      <!-- Next Button -->
+      <input class="btn btn-lg btn-primary" type="submit" id="fiac-name-button" style="font-size: 1em;" value="Next"/>
+
+    </form>
+  
   </div>
 
 </div>
 
-<div class="footer" style="position: fixed; bottom: 0;">
+<div class="footer">
   <ul style="list-style: none;">
     <li style="float: left;">Foreign Investment Board&nbsp;&nbsp;<a href="mailto:fibpalau@gmail.com">&copy;&nbsp;2019</a></li>
   </ul>
 </div>
+
+</body>
 
 </html>
