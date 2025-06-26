@@ -12,7 +12,7 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'iS0liXuukmErJBcxmklMaRv4PcU9fAtU'
+const DEV_TOKEN = 'e3yTC9dOWvR4xxw2BkTCtzyoKDE5Spn9'
 
 function UIfeedBack(name, list) {
     console.log(name + " Create Error");
@@ -22,11 +22,12 @@ function UIfeedBack(name, list) {
 
 // Enterprise Folder Creation
 function entFolderCreate() {
-    var bizName = document.getElementById("biz-name-input")
+    var bizName = document.getElementById("biz-name-input").value.trim();
+
     console.log(`bizName: "${bizName}"`);
 
     var currYear = new Date().getFullYear(); 
-    var fileName = " - " + currYear + "; " + bizName; // User Input
+    var fileName = bizName + "-" + currYear + ";"; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
 
     const uploadHeader = {

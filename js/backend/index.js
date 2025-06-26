@@ -1,11 +1,10 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
-
 const app = express();
 const PORT = 3000;
 
-const DEV_TOKEN = 'iS0liXuukmErJBcxmklMaRv4PcU9fAtU'
+const DEV_TOKEN = 'e3yTC9dOWvR4xxw2BkTCtzyoKDE5Spn9'
 
 app.use(cors());
 app.use(express.json());
