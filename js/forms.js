@@ -40,8 +40,3 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Upload error & progress notifications
-function UIfeedBack(name, list) {
-    console.log(name + " Create Error");
-    document.getElementById("loading-list").style.display = "none";
-    document.getElementById(list + "-list").style.display = "block";
-}

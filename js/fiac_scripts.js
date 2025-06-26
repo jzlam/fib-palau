@@ -12,11 +12,17 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'F9vi89kKIeRg7qAhLRdgqh5Whpplg7eX'
+const DEV_TOKEN = 'iS0liXuukmErJBcxmklMaRv4PcU9fAtU'
+
+function UIfeedBack(name, list) {
+    console.log(name + " Create Error");
+    document.getElementById("loading-list").style.display = "none";
+    document.getElementById(list + "-list").style.display = "block";
+}
 
 // Enterprise Folder Creation
 function entFolderCreate() {
-    var bizName = fiacForm.bizName;
+    var bizName = document.getElementById("biz-name-input")
     console.log(`bizName: "${bizName}"`);
 
     var currYear = new Date().getFullYear(); 
