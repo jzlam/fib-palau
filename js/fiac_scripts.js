@@ -12,7 +12,7 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'e3yTC9dOWvR4xxw2BkTCtzyoKDE5Spn9'
+const DEV_TOKEN = 'krv8gHNwbJqwjebzqBAK4tiflKvFWvOx'
 
 function UIfeedBack(name, list) {
     console.log(name + " Create Error");
