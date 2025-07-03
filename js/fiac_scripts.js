@@ -186,7 +186,6 @@ function fileUpload(file, parentID, i) {
 
 // Master Script Start
 $(document).ready(function (e) {
-
     // Enable Refresh Prompt
     window.onbeforeunload = function() {
         return true;
