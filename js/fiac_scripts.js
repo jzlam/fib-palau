@@ -12,7 +12,6 @@ var fileNameMap = new Map([
 
 const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
 const rootFolder = '325118915175'
-const DEV_TOKEN = 'krv8gHNwbJqwjebzqBAK4tiflKvFWvOx'
 
 function UIfeedBack(name, list) {
     console.log(name + " Create Error");
@@ -30,13 +29,8 @@ function entFolderCreate() {
     var fileName = bizName + "-" + currYear + ";"; // User Input
     console.log(`Trying to create folder with name: "${fileName}"`);
 
-    const uploadHeader = {
-        'Authorization': `Bearer ${DEV_TOKEN}`
-    };
-
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
         data: JSON.stringify({ name: fileName, parentId: rootFolder } ),
         //creates new folder in "Submitted" folder
@@ -56,15 +50,10 @@ function entFolderCreate() {
 function appFolderCreate(folderId) {
     var fileName = "Application"
 
-    const uploadHeader = {
-        'Authorization': `Bearer ${DEV_TOKEN}`
-    };
-
     console.log("created application folder in" + folderId )
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
         data: JSON.stringify({ name: fileName, parentId: folderId } ),
         // Prevent JQuery from appending as querystring:
@@ -137,7 +126,6 @@ function privFolderUpload(folderId, file) {
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
         data: JSON.stringify({ name: fileName, parentId:folderId } ),
         // Prevent JQuery from appending as querystring:
@@ -161,13 +149,9 @@ function fileUpload(file, parentID, i) {
     formData.append('parent_id', parentID); // Parent
 
     // API 
-    const uploadHeader = {
-        'Authorization': `Bearer ${DEV_TOKEN}`
-    };
 
     return $.ajax({
         url: 'http://localhost:3000/upload-file',
-        headers: uploadHeader,
         type:'POST',
         data: formData,
         cache: false,

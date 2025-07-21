@@ -4,7 +4,9 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-const DEV_TOKEN = 'krv8gHNwbJqwjebzqBAK4tiflKvFWvOx'
+require('dotenv').config();
+const DEV_TOKEN = process.env.DEV_TOKEN;
+console.log(DEV_TOKEN);
 
 app.use(cors());
 app.use(express.json());
