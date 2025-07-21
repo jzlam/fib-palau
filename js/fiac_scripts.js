@@ -10,8 +10,7 @@ var fileNameMap = new Map([
     [8, "8. Applicant Attachment (§15).pdf"] 
 ]);
 
-const fiacForm = JSON.parse(sessionStorage.getItem("fiacForm")) || {};
-const rootFolder = '325118915175'
+const submissionsFolderID = '325118915175'
 
 function UIfeedBack(name, list) {
     console.log(name + " Create Error");
@@ -23,7 +22,7 @@ function UIfeedBack(name, list) {
 function entFolderCreate() {
     var bizName = document.getElementById("biz-name-input").value.trim();
 
-    console.log(`bizName: "${bizName}"`);
+    //console.log(`bizName: "${bizName}"`);
 
     var currYear = new Date().getFullYear(); 
     var fileName = bizName + "-" + currYear + ";"; // User Input
@@ -32,14 +31,15 @@ function entFolderCreate() {
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
         type:'POST',
-        data: JSON.stringify({ name: fileName, parentId: rootFolder } ),
-        //creates new folder in "Submitted" folder
+        data: JSON.stringify({ name: fileName, parentId: submissionsFolderID } ),
+        //Creates new folder in "Submitted" folder
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            uploadFiles( data["id"], data["id"]) //check this func
+            appFolderCreate(data["id"])
+            //uploadFiles( , data["id"]) //Uploads files to application folder
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -50,7 +50,7 @@ function entFolderCreate() {
 function appFolderCreate(folderId) {
     var fileName = "Application"
 
-    console.log("created application folder in" + folderId )
+    //console.log("created application folder in" + folderId )
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
@@ -67,7 +67,6 @@ function appFolderCreate(folderId) {
             UIfeedBack("App Folder", "fail"); 
         }
     });
-
 } 
 
 function uploadFiles(appFolderID, entFolderID) {
@@ -103,13 +102,13 @@ function uploadFiles(appFolderID, entFolderID) {
 function privFolderHandler(folderId, file) {
     console.log("Creating Priv Folder");
     //When private folder uploaded, upload private file
-    privFolderUpload(folderId, file)
+    privFolderUpload(folderId, file) //Creates folder named "private"
         .then(data => {
             console.log("Uploading Priv File");
             return fileUpload(file, data["id"], 6);
         })
         .catch(data => {
-            console.log("Failed Uploading Priv Folder");
+            console.log("Failed Uploading Priv file");
             UIfeedBack("Private Folder", "fail");
             return fileUpload(file, data["id"], 6);  
         });
@@ -120,9 +119,6 @@ function privFolderUpload(folderId, file) {
     return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
-    const uploadHeader = {
-        'Authorization': `Bearer ${DEV_TOKEN}`
-    };
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
@@ -149,7 +145,6 @@ function fileUpload(file, parentID, i) {
     formData.append('parent_id', parentID); // Parent
 
     // API 
-
     return $.ajax({
         url: 'http://localhost:3000/upload-file',
         type:'POST',

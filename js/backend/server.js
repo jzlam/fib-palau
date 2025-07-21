@@ -1,4 +1,4 @@
-// server.js
+/* // server.js
 require('dotenv').config();
 const express = require('express');
 const fetch = require('node-fetch');
@@ -12,4 +12,4 @@ app.get('/api/data', async (req, res) => {
   });
   const data = await response.json();
   res.json(data); // Forward response to frontend
-});
+}); */
