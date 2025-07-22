@@ -1,12 +1,12 @@
-// index.js
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
-
 const app = express();
 const PORT = 3000;
 
-const BOX_TOKEN = '69ghvZc22483aFZDo6gZ1WlXOrvJrSui';
+require('dotenv').config();
+const DEV_TOKEN = process.env.DEV_TOKEN;
+console.log(DEV_TOKEN);
 
 app.use(cors());
 app.use(express.json());
@@ -22,7 +22,7 @@ app.post('/create-folder', async (req, res) => {
     const response = await fetch('https://api.box.com/2.0/folders', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${BOX_TOKEN}`,
+        'Authorization': `Bearer ${DEV_TOKEN}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -83,7 +83,7 @@ app.post('/upload-file', upload.single('file'), async (req, res) => {
     const response = await fetch('https://upload.box.com/api/2.0/files/content', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${BOX_TOKEN}`, 
+        Authorization: `Bearer ${DEV_TOKEN}`, 
 
       },
       body: form

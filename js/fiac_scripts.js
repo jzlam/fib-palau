@@ -1,7 +1,7 @@
 // Preset filenames for upload
 var fileNameMap = new Map([
-    [1 , "1. FIAC.pdf"], 
-    [2 , "2. Commercial Documents (§6 and 7).pdf"],
+    [1, "1. FIAC.pdf"], 
+    [2, "2. Commercial Documents (§6 and 7).pdf"],
     [3, "3. Business Profiles (§8 and 9).pdf"], 
     [4, "4. Affiliated Enterprises (§10, 11, and 12).pdf"], 
     [5, "5. Proof of Financial Responsibility (§13).pdf"], 
@@ -10,7 +10,8 @@ var fileNameMap = new Map([
     [8, "8. Applicant Attachment (§15).pdf"] 
 ]);
 
-// Upload error & progress notifications
+const submissionsFolderID = '325118915175'
+
 function UIfeedBack(name, list) {
     console.log(name + " Create Error");
     document.getElementById("loading-list").style.display = "none";
@@ -20,27 +21,25 @@ function UIfeedBack(name, list) {
 // Enterprise Folder Creation
 function entFolderCreate() {
     var bizName = document.getElementById("biz-name-input").value.trim();
-    var currYear = new Date().getFullYear(); 
-    var fileName = " - " + currYear + "; " + bizName; // User Input
-    console.log(`Trying to create folder with name: "${fileName}"`);
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
-    };
+    //console.log(`bizName: "${bizName}"`);
+
+    var currYear = new Date().getFullYear(); 
+    var fileName = bizName + "-" + currYear + ";"; // User Input
+    console.log(`Trying to create folder with name: "${fileName}"`);
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
-        data: JSON.stringify({ name: fileName, parentId: '325118915175' } ),
-        //creates new folder in "Submitted" folder
+        data: JSON.stringify({ name: fileName, parentId: submissionsFolderID } ),
+        //Creates new folder in "Submitted" folder
         // Prevent JQuery from appending as querystring:
         cache: false,
         contentType: 'application/json',
         processData: false,
         success: function(data){ 
-            uploadFiles( data["id"], data["id"]) //check this func
+            appFolderCreate(data["id"])
+            //uploadFiles( , data["id"]) //Uploads files to application folder
         },
         error: function(data){
             UIfeedBack("Enterprise Folder", "name"); 
@@ -48,18 +47,13 @@ function entFolderCreate() {
     });
 }
 
-/* function appFolderCreate(folderId) {
+function appFolderCreate(folderId) {
     var fileName = "Application"
 
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer HGCICtLfJsUs87CIwVjOAZ8Ux0i2EKUX'
-    };
-    console.log("created application folder in" + folderId )
+    //console.log("created application folder in" + folderId )
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
         data: JSON.stringify({ name: fileName, parentId: folderId } ),
         // Prevent JQuery from appending as querystring:
@@ -73,8 +67,7 @@ function entFolderCreate() {
             UIfeedBack("App Folder", "fail"); 
         }
     });
-
-} */
+} 
 
 function uploadFiles(appFolderID, entFolderID) {
     var apiCalls = [];
@@ -109,13 +102,13 @@ function uploadFiles(appFolderID, entFolderID) {
 function privFolderHandler(folderId, file) {
     console.log("Creating Priv Folder");
     //When private folder uploaded, upload private file
-    privFolderUpload(folderId, file)
+    privFolderUpload(folderId, file) //Creates folder named "private"
         .then(data => {
             console.log("Uploading Priv File");
             return fileUpload(file, data["id"], 6);
         })
         .catch(data => {
-            console.log("Failed Uploading Priv Folder");
+            console.log("Failed Uploading Priv file");
             UIfeedBack("Private Folder", "fail");
             return fileUpload(file, data["id"], 6);  
         });
@@ -126,14 +119,9 @@ function privFolderUpload(folderId, file) {
     return new Promise((resolve, reject) => {
     
     var fileName = "Private Documents";
-    //var uploadUrl = 'https://api.box.com/2.0/folders';
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
-    };
 
     $.ajax({       
         url: 'http://localhost:3000/create-folder',
-        headers: uploadHeader,
         type:'POST',
         data: JSON.stringify({ name: fileName, parentId:folderId } ),
         // Prevent JQuery from appending as querystring:
@@ -157,14 +145,8 @@ function fileUpload(file, parentID, i) {
     formData.append('parent_id', parentID); // Parent
 
     // API 
-    //var uploadUrl = 'https://upload.box.com/api/2.0/files/content'; 
-    var uploadHeader = {
-        'Authorization': 'Bearer 69ghvZc22483aFZDo6gZ1WlXOrvJrSui'
-    };
-
     return $.ajax({
         url: 'http://localhost:3000/upload-file',
-        headers: uploadHeader,
         type:'POST',
         data: formData,
         cache: false,
@@ -183,7 +165,6 @@ function fileUpload(file, parentID, i) {
 
 // Master Script Start
 $(document).ready(function (e) {
-
     // Enable Refresh Prompt
     window.onbeforeunload = function() {
         return true;
@@ -201,12 +182,12 @@ $(document).ready(function (e) {
         $(this).next('.custom-file-label').html(fileName);
     }); 
 
-    $('#biz-name-input')[0].oninvalid = function () {
+   /*  $('#biz-name-input')[0].oninvalid = function () {
         this.setCustomValidity('Enter a name without using the special characters /, \\, and .');
     };
     $('#biz-name-input')[0].oninput= function () {
         this.setCustomValidity(""); 
-    };
+    }; */
 
     // Other Listeners
     $('#modal-close').on('click', function(){
